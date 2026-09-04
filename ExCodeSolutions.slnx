@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="src/ExCodeSolutions.Application/ExCodeSolutions.Application.csproj" Id="f66f1450-8868-47fb-b3eb-47d26f56b89a" />
+  <Project Path="src/ExCodeSolutions.Domain/ExCodeSolutions.Domain.csproj" Id="55bec086-6917-41fc-90b1-63f65567f136" />
+  <Project Path="src/ExCodeSolutions.Infrastructure/ExCodeSolutions.Infrastructure.csproj" Id="cb6c68c0-a7f3-4fb5-835e-dd88c9aafb04" />
+  <Project Path="src/ExCodeSolutions.Web/ExCodeSolutions.Web.csproj" Id="af482901-d794-4df8-9bb0-65de303fd60b" />
+  <Project Path="tests/ExCodeSolutions.IntegrationTests/ExCodeSolutions.IntegrationTests.csproj" Id="319756a8-7d6e-4654-9af5-9c7bcc92942d" />
+  <Project Path="tests/ExCodeSolutions.UnitTests/ExCodeSolutions.UnitTests.csproj" Id="e8cbd9d5-ccf9-4e23-9bc0-5ba5980fb3c4" />
+</Solution>

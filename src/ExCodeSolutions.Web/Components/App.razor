@@ -5,18 +5,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+
+    @* Precarga de recursos *@
     <ResourcePreloader />
+
+    @* Estilos principales *@
     <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
     <link rel="stylesheet" href="@Assets["app.css"]" />
     <link rel="stylesheet" href="@Assets["ExCodeSolutions.Web.styles.css"]" />
+
+    @* Estilos MudBlazor *@
+    <link rel="stylesheet"
+          href="_content/MudBlazor/MudBlazor.min.css" />
+
+    @* Mapa de recursos *@
     <ImportMap />
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <HeadOutlet />
+
+    @* Icono del sitio *@
+    <link rel="icon"
+          type="image/png"
+          href="favicon.png" />
+
+    @* Contenido del head *@
+    <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 
 <body>
-    <Routes />
+    @* Navegación principal *@
+    <Routes @rendermode="InteractiveServer" />
+
+    @* Reconexión Blazor *@
     <ReconnectModal />
+
+    @* Scripts MudBlazor *@
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+
+    @* Script de Blazor *@
     <script src="@Assets["_framework/blazor.web.js"]"></script>
 </body>
 

@@ -1,4 +1,5 @@
 using ExCodeSolutions.Web.Components;
+using MudBlazor.Services;
 
 namespace ExCodeSolutions.Web
 {
@@ -6,31 +7,43 @@ namespace ExCodeSolutions.Web
     {
         public static void Main(string[] args)
         {
+            // Configuración inicial
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorComponents()
+            // Registro de servicios
+            builder.Services
+                .AddRazorComponents()
                 .AddInteractiveServerComponents();
 
+            // Servicios MudBlazor
+            builder.Services.AddMudServices();
+
+            // Construir aplicación
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Seguridad en producción
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
-            app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
-            app.UseHttpsRedirection();
+            // Pipeline HTTP
+            app.UseStatusCodePagesWithReExecute(
+                "/not-found",
+                createScopeForStatusCodePages: true);
 
+            app.UseHttpsRedirection();
             app.UseAntiforgery();
 
+            // Archivos estáticos
             app.MapStaticAssets();
+
+            // Componentes Razor
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
 
+            // Iniciar aplicación
             app.Run();
         }
     }

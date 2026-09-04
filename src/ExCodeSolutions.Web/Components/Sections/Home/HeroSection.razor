@@ -1,0 +1,65 @@
+@inject ISnackbar Snackbar
+
+<section aria-labelledby="hero-title">
+    <MudContainer MaxWidth="MaxWidth.Large" Class="py-16">
+        <MudGrid Spacing="6">
+            @* Mensaje principal *@
+            <MudItem xs="12" md="7">
+                <MudText Typo="Typo.overline"
+                         Color="Color.Primary"
+                         GutterBottom="true">
+                    CUSTOM SOFTWARE · AUTOMATION · INTEGRATIONS
+                </MudText>
+
+                <MudText id="hero-title"
+                         Typo="Typo.h2"
+                         GutterBottom="true">
+                    Software built around your business
+                </MudText>
+
+                <MudText Typo="Typo.h5"
+                         Color="Color.Secondary"
+                         GutterBottom="true">
+                    We create reliable digital solutions that automate
+                    processes, connect systems and support business growth.
+                </MudText>
+
+                @* Acción principal *@
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           OnClick="ShowContactMessage"
+                           Class="mt-4">
+                    Start a conversation
+                </MudButton>
+            </MudItem>
+
+            @* Resumen de servicios *@
+            <MudItem xs="12" md="5">
+                <MudPaper Elevation="4" Class="pa-6">
+                    <MudText Typo="Typo.h5" GutterBottom="true">
+                        What we solve
+                    </MudText>
+
+                    <MudDivider Class="mb-4" />
+
+                    <MudStack Spacing="3">
+                        <MudText>✓ Manual and repetitive processes</MudText>
+                        <MudText>✓ Disconnected business systems</MudText>
+                        <MudText>✓ Software that no longer scales</MudText>
+                    </MudStack>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</section>
+
+@code {
+    // Mensaje temporal
+    private void ShowContactMessage()
+    {
+        Snackbar.Add(
+            "The contact module will be available soon.",
+            Severity.Info);
+    }
+}

@@ -13,7 +13,11 @@ namespace ExCodeSolutions.Web.Theme
                 Secondary = "#19A7A0",
                 Background = "#F7F9FC",
                 Surface = "#FFFFFF",
-                TextPrimary = "#17212B"
+                TextPrimary = "#17212B",
+            // Barra principal
+                AppbarBackground = "#FFFFFF",
+                AppbarText = "#17212B"
+
             }
         };
     }

@@ -1,0 +1,28 @@
+/* CSS for Footer component */
+/* Fondo principal */
+.site-footer {
+    background: linear-gradient(
+        180deg,
+        #eef6f7 0%,
+        #e3eff1 100%
+    );
+    border-top: 1px solid rgba(15, 76, 92, 0.15);
+    color: #17212b;
+}
+
+/* Línea divisoria */
+.site-footer ::deep .mud-divider {
+    border-color: rgba(15, 76, 92, 0.18);
+}
+
+/* Enlaces interactivos */
+.site-footer ::deep .mud-link:hover {
+    color: #19a7a0;
+}
+
+/* Diseño móvil */
+@media (max-width: 959.98px) {
+    .site-footer {
+        text-align: center;
+    }
+}

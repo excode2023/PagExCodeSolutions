@@ -1,0 +1,97 @@
+﻿<footer class="site-footer">
+
+    <MudContainer MaxWidth="MaxWidth.Large"
+                  Class="py-8">
+
+        <MudGrid Spacing="4">
+
+            @* Información empresa *@
+            <MudItem xs="12" md="5">
+
+                <MudText Typo="Typo.h5"
+                         Color="Color.Primary"
+                         GutterBottom="true">
+                    Ex-code Solutions
+                </MudText>
+
+                <MudText Typo="Typo.body2">
+                    We build reliable software that automates processes,
+                    connects systems and supports business growth.
+                </MudText>
+
+            </MudItem>
+
+            @* Navegación rápida *@
+            <MudItem xs="12" md="3">
+
+                <MudText Typo="Typo.h6"
+                         GutterBottom="true">
+                    Quick links
+                </MudText>
+
+                <MudStack Spacing="1">
+
+                    <MudLink Href="/"
+                             Underline="Underline.Hover">
+                        Home
+                    </MudLink>
+
+                    <MudLink Href="/#services"
+                             Underline="Underline.Hover">
+                        Services
+                    </MudLink>
+
+                    <MudLink Href="/#projects"
+                             Underline="Underline.Hover">
+                        Projects
+                    </MudLink>
+
+                    <MudLink Href="/#contact"
+                             Underline="Underline.Hover">
+                        Contact
+                    </MudLink>
+
+                </MudStack>
+
+            </MudItem>
+
+            @* Información contacto *@
+            <MudItem xs="12" md="4">
+
+                <MudText Typo="Typo.h6"
+                         GutterBottom="true">
+                    Let's work together
+                </MudText>
+
+                <MudText Typo="Typo.body2"
+                         GutterBottom="true">
+                    Tell us about the problem your business needs to solve.
+                </MudText>
+
+                <MudButton Href="/#contact"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary">
+                    Contact us
+                </MudButton>
+
+            </MudItem>
+
+        </MudGrid>
+
+        @* Separador inferior *@
+        <MudDivider Class="my-6" />
+
+        @* Derechos reservados *@
+        <MudText Typo="Typo.body2"
+                 Align="Align.Center">
+            © @CurrentYear Ex-code Solutions. All rights reserved.
+        </MudText>
+
+    </MudContainer>
+
+</footer>
+
+@code {
+    // Año automático
+    private int CurrentYear => DateTime.Now.Year;
+}

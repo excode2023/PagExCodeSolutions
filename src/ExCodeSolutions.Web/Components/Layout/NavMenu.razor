@@ -1,29 +1,124 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ExCodeSolutions.Web</a>
-    </div>
-</div>
+﻿@* Barra principal *@
+<MudAppBar Fixed="true"
+           Elevation="1"
+           Color="Color.Surface">
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+    <MudContainer MaxWidth="MaxWidth.Large"
+                  Class="d-flex align-center">
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
+        @* Marca corporativa *@
+        <MudLink Href="/"
+                 Underline="Underline.None">
+            <MudText Typo="Typo.h6"
+                     Color="Color.Primary">
+                Ex-code Solutions
+            </MudText>
+        </MudLink>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+        <MudSpacer />
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+        @* Menú escritorio *@
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <MudStack Row="true"
+                      AlignItems="AlignItems.Center"
+                      Spacing="2">
+
+                <MudButton Href="/">
+                    Home
+                </MudButton>
+
+                <MudButton Href="/#services">
+                    Services
+                </MudButton>
+
+                <MudButton Href="/#industries">
+                    Industries
+                </MudButton>
+
+                <MudButton Href="/#projects">
+                    Projects
+                </MudButton>
+
+                <MudButton Href="/#contact"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary">
+                    Contact
+                </MudButton>
+
+            </MudStack>
+        </MudHidden>
+
+        @* Menú móvil *@
+        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                           Color="Color.Primary"
+                           Edge="Edge.End"
+                           OnClick="ToggleDrawer"
+                           aria-label="Open navigation menu" />
+        </MudHidden>
+
+    </MudContainer>
+
+</MudAppBar>
+
+@* Panel móvil *@
+<MudDrawer @bind-Open="_drawerOpen"
+           Anchor="Anchor.Right"
+           Variant="DrawerVariant.Temporary"
+           Elevation="2">
+
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6"
+                 Color="Color.Primary">
+            Ex-code Solutions
+        </MudText>
+    </MudDrawerHeader>
+
+    <MudNavMenu>
+
+        <MudNavLink Href="/"
+                    Match="NavLinkMatch.All"
+                    OnClick="CloseDrawer">
+            Home
+        </MudNavLink>
+
+        <MudNavLink Href="/#services"
+                    OnClick="CloseDrawer">
+            Services
+        </MudNavLink>
+
+        <MudNavLink Href="/#industries"
+                    OnClick="CloseDrawer">
+            Industries
+        </MudNavLink>
+
+        <MudNavLink Href="/#projects"
+                    OnClick="CloseDrawer">
+            Projects
+        </MudNavLink>
+
+        <MudNavLink Href="/#contact"
+                    OnClick="CloseDrawer">
+            Contact
+        </MudNavLink>
+
+    </MudNavMenu>
+
+</MudDrawer>
+
+@code {
+    // Estado del menú
+    private bool _drawerOpen;
+
+    // Abrir o cerrar
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    // Cerrar menú
+    private void CloseDrawer()
+    {
+        _drawerOpen = false;
+    }
+}

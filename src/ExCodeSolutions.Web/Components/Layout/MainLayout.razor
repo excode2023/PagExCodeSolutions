@@ -1,28 +1,33 @@
 ﻿@inherits LayoutComponentBase
+
 @* Servicios visuales *@
-<MudThemeProvider />
+<MudThemeProvider Theme="@ExCodeTheme.Default" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+@* Estructura principal *@
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+<MudLayout>
+    @* Navegación principal *@
+    <NavMenu />
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+@* Mensaje de error *@
+<div id="blazor-error-ui"
+     data-nosnippet>
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
+    An unexpected error has occurred.
+
+    <a href="."
+       class="reload">
+        Reload
+    </a>
+
+    <span class="dismiss">
+        🗙
+    </span>
 </div>

@@ -1,10 +1,16 @@
 @inject ISnackbar Snackbar
 
-<section aria-labelledby="hero-title">
-    <MudContainer MaxWidth="MaxWidth.Large" Class="py-16">
+<section class="hero-section"
+         aria-labelledby="hero-title">
+
+    <MudContainer MaxWidth="MaxWidth.Large"
+                  Class="py-16">
+
         <MudGrid Spacing="6">
+
             @* Mensaje principal *@
             <MudItem xs="12" md="7">
+
                 <MudText Typo="Typo.overline"
                          Color="Color.Primary"
                          GutterBottom="true">
@@ -18,7 +24,7 @@
                 </MudText>
 
                 <MudText Typo="Typo.h5"
-                         Color="Color.Secondary"
+                         Class="hero-description"
                          GutterBottom="true">
                     We create reliable digital solutions that automate
                     processes, connect systems and support business growth.
@@ -32,12 +38,17 @@
                            Class="mt-4">
                     Start a conversation
                 </MudButton>
+
             </MudItem>
 
             @* Resumen de servicios *@
             <MudItem xs="12" md="5">
-                <MudPaper Elevation="4" Class="pa-6">
-                    <MudText Typo="Typo.h5" GutterBottom="true">
+
+                <MudPaper Elevation="4"
+                          Class="hero-card pa-6">
+
+                    <MudText Typo="Typo.h5"
+                             GutterBottom="true">
                         What we solve
                     </MudText>
 
@@ -48,10 +59,15 @@
                         <MudText>✓ Disconnected business systems</MudText>
                         <MudText>✓ Software that no longer scales</MudText>
                     </MudStack>
+
                 </MudPaper>
+
             </MudItem>
+
         </MudGrid>
+
     </MudContainer>
+
 </section>
 
 @code {

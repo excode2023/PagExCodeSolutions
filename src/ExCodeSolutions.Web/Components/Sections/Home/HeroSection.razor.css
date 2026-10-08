@@ -1,0 +1,24 @@
+/* CSS for HeroSection component */
+.hero-section {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    background: radial-gradient( circle at 85% 20%, rgba(25, 167, 160, 0.18), transparent 35% ), linear-gradient( 135deg, #f7f9fc 0%, #eef6f7 100% );
+}
+
+::deep .hero-description {
+    max-width: 42rem;
+    color: #44515c;
+    line-height: 1.6;
+}
+
+::deep .hero-card {
+    border: 1px solid rgba(15, 76, 92, 0.12);
+    border-radius: 20px;
+}
+
+@media (max-width: 959.98px) {
+    .hero-section {
+        min-height: auto;
+    }
+}

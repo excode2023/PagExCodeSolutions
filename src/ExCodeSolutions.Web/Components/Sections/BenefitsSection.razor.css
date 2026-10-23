@@ -1,0 +1,52 @@
+/* CSS for BenefitsSection component */
+.benefits-section {
+    background-color: #ffffff;
+    border-top: 1px solid rgba(15, 76, 92, 0.10);
+    border-bottom: 1px solid rgba(15, 76, 92, 0.10);
+}
+
+.benefit-item {
+    min-height: 6.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-right: 1px solid rgba(15, 76, 92, 0.14);
+}
+
+.benefit-item-last {
+    border-right: none;
+}
+
+.benefits-section ::deep .benefit-icon {
+    flex-shrink: 0;
+    color: #0b84ff;
+    font-size: 2.6rem;
+}
+
+.benefits-section ::deep .benefit-title {
+    color: #07152d;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.benefits-section ::deep .benefit-description {
+    margin-top: 0.25rem;
+    color: #60708d;
+}
+
+/* Dos columnas */
+@media (max-width: 959.98px) {
+    .benefit-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(15, 76, 92, 0.12);
+    }
+}
+
+/* Una columna */
+@media (max-width: 599.98px) {
+    .benefit-item {
+        min-height: auto;
+        padding: 1rem 0.5rem;
+    }
+}

@@ -1,24 +1,195 @@
-/* CSS for HeroSection component */
 .hero-section {
-    min-height: calc(100vh - 64px);
+    position: relative;
+    isolation: isolate;
     display: flex;
     align-items: center;
-    background: radial-gradient( circle at 85% 20%, rgba(25, 167, 160, 0.18), transparent 35% ), linear-gradient( 135deg, #f7f9fc 0%, #eef6f7 100% );
+    min-height: clamp(640px, calc(100svh - 72px), 820px);
+    overflow: hidden;
+    background-color: #061525;
+    background-image: url("/images/hero/hero-exavier-v1.png");
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-::deep .hero-description {
-    max-width: 42rem;
-    color: #44515c;
-    line-height: 1.6;
+.hero-overlay {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(3, 18, 31, 0.99) 0%, rgba(3, 18, 31, 0.96) 25%, rgba(3, 18, 31, 0.78) 48%, rgba(3, 18, 31, 0.18) 72%, rgba(3, 18, 31, 0.08) 100%),
+        linear-gradient(0deg, rgba(3, 18, 31, 0.45), transparent 38%);
 }
 
-::deep .hero-card {
-    border: 1px solid rgba(15, 76, 92, 0.12);
-    border-radius: 20px;
+.hero-section ::deep .hero-container {
+    position: relative;
+    width: 100%;
+    padding: clamp(4.5rem, 8vh, 7rem) clamp(1.5rem, 4vw, 4.5rem);
 }
 
-@media (max-width: 959.98px) {
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(100%, 650px);
+}
+
+.badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 1.25rem;
+    color: #51b9ff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.badge-pill ::deep .mud-icon-root { font-size: 1.1rem; }
+
+.hero-section ::deep .hero-title {
+    max-width: 13ch;
+    margin-bottom: 1.4rem;
+    color: #fff !important;
+    font-size: clamp(2.75rem, 4.7vw, 5rem) !important;
+    font-weight: 800 !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+}
+
+.hero-highlight {
+    display: block;
+    color: #1597ff;
+}
+
+.hero-section ::deep .hero-description {
+    max-width: 38rem;
+    margin-bottom: 1.9rem !important;
+    color: rgba(255, 255, 255, 0.88) !important;
+    font-size: clamp(1rem, 1.3vw, 1.15rem) !important;
+    line-height: 1.65 !important;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+}
+
+.hero-section ::deep .hero-btn {
+    min-height: 48px !important;
+    padding-inline: 1.45rem !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+}
+
+.hero-section ::deep .hero-btn-outline {
+    border-color: #32a9ff !important;
+    color: #fff !important;
+}
+
+.hero-cards {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+}
+
+.floating-card {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 8.25rem;
+    min-height: 7rem;
+    padding: 0.85rem;
+    border: 1px solid rgba(49, 176, 255, 0.9);
+    border-radius: 1rem;
+    background:
+        linear-gradient(145deg, rgba(15, 67, 132, 0.76), rgba(5, 31, 73, 0.82));
+    box-shadow:
+        0 0 18px rgba(0, 153, 255, 0.28),
+        0 16px 35px rgba(0, 0, 0, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
+    backdrop-filter: blur(14px);
+}
+
+.floating-card ::deep .mud-icon-root {
+    color: #8fd8ff;
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 8px rgba(41, 182, 255, 0.65));
+}
+
+.card-ia        { top: 12%; right: 27%; }
+.card-chatbot   { top: 20%; right: 2%; }
+.card-citas     { top: 49%; right: 1%; }
+.card-logistica { bottom: 7%; right: 4%; }
+
+@media (max-width: 1199.98px) {
     .hero-section {
-        min-height: auto;
+        min-height: 680px;
+        background-position: 62% center;
+    }
+
+    .hero-overlay {
+        background: linear-gradient(90deg, rgba(3, 18, 31, 0.98) 0%, rgba(3, 18, 31, 0.9) 48%, rgba(3, 18, 31, 0.35) 100%);
+    }
+
+    .hero-content { width: min(62%, 610px); }
+    .floating-card { display: none; }
+}
+
+@media (max-width: 767.98px) {
+    .hero-section {
+        align-items: flex-end;
+        min-height: 720px;
+        background-position: 64% center;
+    }
+
+    .hero-overlay {
+        background:
+            linear-gradient(0deg, rgba(3, 18, 31, 1) 0%, rgba(3, 18, 31, 0.94) 42%, rgba(3, 18, 31, 0.24) 82%),
+            linear-gradient(90deg, rgba(3, 18, 31, 0.55), rgba(3, 18, 31, 0.05));
+    }
+
+    .hero-section ::deep .hero-container {
+        padding-top: 14rem;
+        padding-bottom: 3.25rem;
+    }
+
+    .hero-content { width: 100%; }
+
+    .hero-section ::deep .hero-title {
+        max-width: 15ch;
+        font-size: clamp(2.35rem, 11vw, 3.4rem) !important;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .badge-pill {
+        font-size: 0.68rem;
+        letter-spacing: 0.04em;
+    }
+
+    .hero-actions { flex-direction: column; }
+    .hero-section ::deep .hero-btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-section *,
+    .hero-section *::before,
+    .hero-section *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
     }
 }

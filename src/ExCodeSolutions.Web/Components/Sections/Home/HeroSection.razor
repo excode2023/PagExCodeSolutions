@@ -1,81 +1,67 @@
 @inject ISnackbar Snackbar
 
-<section class="hero-section"
-         aria-labelledby="hero-title">
+<section class="hero-section" aria-labelledby="hero-title">
+    <div class="hero-overlay" aria-hidden="true"></div>
 
-    <MudContainer MaxWidth="MaxWidth.Large"
-                  Class="py-16">
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="hero-container">
+        <div class="hero-content">
+            <div class="badge-pill">
+                <MudIcon Icon="@Icons.Material.Filled.AutoAwesome" Size="Size.Small" />
+                <span>Software · Automatización · IA para empresas</span>
+            </div>
 
-        <MudGrid Spacing="6">
+            <MudText id="hero-title" Typo="Typo.h1" Class="hero-title">
+                Transformamos tus procesos en
+                <span class="hero-highlight">soluciones digitales reales</span>
+            </MudText>
 
-            @* Mensaje principal *@
-            <MudItem xs="12" md="7">
+            <MudText Typo="Typo.body1" Class="hero-description">
+                Diseñamos software a medida, automatizamos tareas e integramos
+                tecnología para que tu empresa trabaje mejor, con claridad y sin
+                complicaciones.
+            </MudText>
 
-                <MudText Typo="Typo.overline"
-                         Color="Color.Primary"
-                         GutterBottom="true">
-                    CUSTOM SOFTWARE · AUTOMATION · INTEGRATIONS
-                </MudText>
-
-                <MudText id="hero-title"
-                         Typo="Typo.h2"
-                         GutterBottom="true">
-                    Software built around your business
-                </MudText>
-
-                <MudText Typo="Typo.h5"
-                         Class="hero-description"
-                         GutterBottom="true">
-                    We create reliable digital solutions that automate
-                    processes, connect systems and support business growth.
-                </MudText>
-
-                @* Acción principal *@
-                <MudButton Variant="Variant.Filled"
-                           Color="Color.Primary"
-                           Size="Size.Large"
-                           OnClick="ShowContactMessage"
-                           Class="mt-4">
-                    Start a conversation
+            <div class="hero-actions">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large"
+                           EndIcon="@Icons.Material.Filled.ArrowForward" Class="hero-btn"
+                           OnClick="ShowContactMessage">
+                    Cuéntanos tu proyecto
                 </MudButton>
 
-            </MudItem>
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large"
+                           EndIcon="@Icons.Material.Filled.ArrowForward"
+                           Class="hero-btn hero-btn-outline" OnClick="ShowSolutionsMessage">
+                    Ver nuestras soluciones
+                </MudButton>
+            </div>
+        </div>
 
-            @* Resumen de servicios *@
-            <MudItem xs="12" md="5">
-
-                <MudPaper Elevation="4"
-                          Class="hero-card pa-6">
-
-                    <MudText Typo="Typo.h5"
-                             GutterBottom="true">
-                        What we solve
-                    </MudText>
-
-                    <MudDivider Class="mb-4" />
-
-                    <MudStack Spacing="3">
-                        <MudText>✓ Manual and repetitive processes</MudText>
-                        <MudText>✓ Disconnected business systems</MudText>
-                        <MudText>✓ Software that no longer scales</MudText>
-                    </MudStack>
-
-                </MudPaper>
-
-            </MudItem>
-
-        </MudGrid>
-
+        @* Elementos decorativos: se mantienen lejos del texto principal. *@
+        <div class="hero-cards" aria-hidden="true">
+            <div class="floating-card card-ia">
+                <MudIcon Icon="@Icons.Material.Filled.Psychology" />
+                <span>IA</span>
+            </div>
+            <div class="floating-card card-chatbot">
+                <MudIcon Icon="@Icons.Material.Filled.Chat" />
+                <span>Chatbot WhatsApp</span>
+            </div>
+            <div class="floating-card card-citas">
+                <MudIcon Icon="@Icons.Material.Filled.CalendarMonth" />
+                <span>Citas</span>
+            </div>
+            <div class="floating-card card-logistica">
+                <MudIcon Icon="@Icons.Material.Filled.LocalShipping" />
+                <span>Logística</span>
+            </div>
+        </div>
     </MudContainer>
-
 </section>
 
 @code {
-    // Mensaje temporal
-    private void ShowContactMessage()
-    {
-        Snackbar.Add(
-            "The contact module will be available soon.",
-            Severity.Info);
-    }
+    private void ShowContactMessage() =>
+        Snackbar.Add("El módulo de contacto estará disponible próximamente.", Severity.Info);
+
+    private void ShowSolutionsMessage() =>
+        Snackbar.Add("La sección de soluciones estará disponible próximamente.", Severity.Info);
 }

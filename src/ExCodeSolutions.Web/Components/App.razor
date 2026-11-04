@@ -21,10 +21,10 @@
     @* Mapa de recursos *@
     <ImportMap />
 
-    @* Icono del sitio *@
+    @* Icono de la pestaña del navegador *@
     <link rel="icon"
-          type="image/png"
-          href="favicon.png" />
+      type="image/png"
+      href="/images/brand/excode-logo.png?v=1" />
 
     @* Contenido del head *@
     <HeadOutlet @rendermode="InteractiveServer" />
@@ -33,9 +33,6 @@
 <body>
     @* Navegación principal *@
     <Routes @rendermode="InteractiveServer" />
-
-    @* Reconexión Blazor *@
-    <ReconnectModal />
 
     @* Scripts MudBlazor *@
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>

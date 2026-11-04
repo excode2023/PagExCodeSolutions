@@ -1,0 +1,153 @@
+@using ExCodeSolutions.Web.Content.Marketing
+@using ExCodeSolutions.Web.Models.Marketing
+
+<section id="solutions-catalog"
+         class="solutions-catalog-section"
+         aria-labelledby="solutions-catalog-title">
+
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+        <header class="catalog-heading">
+            <MudText Typo="Typo.overline"
+                     Color="Color.Primary"
+                     Class="catalog-eyebrow">
+                SOLUCIONES PARA TU EMPRESA
+            </MudText>
+
+            <h1 id="solutions-catalog-title"
+                class="catalog-title">
+                @CategoryTitle
+            </h1>
+
+            <p class="catalog-description">
+                @CategoryDescription
+            </p>
+        </header>
+
+        @if (Solutions.Count > 0)
+        {
+            <MudGrid Spacing="4">
+                @foreach (SolutionItem solution in Solutions)
+                {
+                    <MudItem xs="12"
+                             sm="6"
+                             lg="4"
+                             @key="solution.Id">
+
+                        <MudCard Class="catalog-card"
+                                 Outlined="true">
+
+                            <MudCardContent Class="catalog-card-content">
+                                <div class="catalog-icon"
+                                     aria-hidden="true">
+                                    <MudIcon Icon="@solution.Icon"
+                                             Size="Size.Large" />
+                                </div>
+
+                                <h2 class="catalog-card-title">
+                                    @solution.Title
+                                </h2>
+
+                                <p class="catalog-card-summary">
+                                    @solution.Summary
+                                </p>
+                            </MudCardContent>
+
+                            <MudCardActions Class="catalog-card-actions">
+                                <MudButton Variant="Variant.Text"
+                                           Color="Color.Primary"
+                                           EndIcon="@Icons.Material.Filled.ArrowForward"
+                                           OnClick="() => SelectSolutionAsync(solution)"
+                                           aria-label="@($"Ver más sobre {solution.Title}")">
+                                    Ver más
+                                </MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        }
+        else
+        {
+            <div class="catalog-empty-state" role="status">
+                <span class="empty-state-icon" aria-hidden="true">
+                    <MudIcon Icon="@Icons.Material.Filled.Construction"
+                             Size="Size.Large" />
+                </span>
+
+                <h2 class="empty-state-title">
+                    Estamos preparando esta categoría
+                </h2>
+
+                <p class="empty-state-description">
+                    Todavía no hay micro apps publicadas. Solo mostraremos aquí
+                    aplicaciones que tengan un estado real y verificable.
+                </p>
+
+                <MudButton Href="/#contact"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.ChatBubbleOutline"
+                           Class="empty-state-button">
+                    Cuéntanos qué necesitas
+                </MudButton>
+            </div>
+        }
+    </MudContainer>
+</section>
+
+@code {
+    /// <summary>
+    /// Categoría elegida en las cuatro cartillas principales.
+    /// </summary>
+    [Parameter]
+    [EditorRequired]
+    public SolutionCategory SelectedCategory { get; set; }
+
+    /// <summary>
+    /// Notifica al componente padre qué solución seleccionó el visitante.
+    /// </summary>
+    [Parameter]
+    public EventCallback<SolutionItem> SolutionSelected { get; set; }
+
+    private IReadOnlyList<SolutionItem> Solutions =>
+        SolutionCatalog.GetByCategory(SelectedCategory);
+
+    private string CategoryTitle => SelectedCategory switch
+    {
+        SolutionCategory.PointProblem =>
+            "Resuelve una necesidad concreta",
+
+        SolutionCategory.CompleteSystem =>
+            "Construye una solución conectada",
+
+        SolutionCategory.ArtificialIntelligence =>
+            "Explora oportunidades con inteligencia artificial",
+
+        SolutionCategory.MicroApps =>
+            "Micro apps para tener más control",
+
+        _ => "Soluciones para tu empresa"
+    };
+
+    private string CategoryDescription => SelectedCategory switch
+    {
+        SolutionCategory.PointProblem =>
+            "Mejora un proceso específico sin reemplazar toda tu operación.",
+
+        SolutionCategory.CompleteSystem =>
+            "Organiza procesos, usuarios e información en una plataforma a medida.",
+
+        SolutionCategory.ArtificialIntelligence =>
+            "Aplica IA cuando pueda producir un beneficio empresarial real y medible.",
+
+        SolutionCategory.MicroApps =>
+            "Herramientas sencillas para controlar tareas concretas de tu negocio o vida diaria.",
+
+        _ => string.Empty
+    };
+
+    private Task SelectSolutionAsync(SolutionItem solution)
+    {
+        return SolutionSelected.InvokeAsync(solution);
+    }
+}

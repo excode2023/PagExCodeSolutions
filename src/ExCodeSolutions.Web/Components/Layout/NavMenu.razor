@@ -1,124 +1,97 @@
-﻿@* Barra principal *@
+@* Barra de navegación principal - estilo oscuro profesional *@
 <MudAppBar Fixed="true"
-           Elevation="1"
-           Color="Color.Surface">
+           Elevation="0"
+           Class="nav-appbar">
 
-    <MudContainer MaxWidth="MaxWidth.Large"
-                  Class="d-flex align-center">
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge"
+                  Class="nav-container d-flex align-center">
 
-        @* Marca corporativa *@
+        @* Logo real + marca *@
         <MudLink Href="/"
-                 Underline="Underline.None">
-            <MudText Typo="Typo.h6"
-                     Color="Color.Primary">
-                Ex-code Solutions
-            </MudText>
+                 Underline="Underline.None"
+                 Class="brand-link d-flex align-center">
+
+            <span class="brand-logo-frame" aria-hidden="true">
+                <img src="/images/brand/excode-logo.png"
+                     alt=""
+                     class="brand-logo-image"
+                     width="72"
+                     height="72" />
+            </span>
+
+            <div class="brand-copy ml-3 d-none d-sm-block">
+                <MudText Typo="Typo.h6" Class="logo-title mb-0">Ex-code Solutions</MudText>
+                <MudText Typo="Typo.caption" Class="logo-subtitle">Building Software That Moves Business Forward</MudText>
+            </div>
         </MudLink>
 
         <MudSpacer />
 
         @* Menú escritorio *@
-        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+        <MudHidden Breakpoint="Breakpoint.MdAndDown">
             <MudStack Row="true"
                       AlignItems="AlignItems.Center"
-                      Spacing="2">
-
-                <MudButton Href="/">
-                    Home
-                </MudButton>
-
-                <MudButton Href="/#services">
-                    Services
-                </MudButton>
-
-                <MudButton Href="/#industries">
-                    Industries
-                </MudButton>
-
-                <MudButton Href="/#projects">
-                    Projects
-                </MudButton>
-
-                <MudButton Href="/#contact"
-                           Variant="Variant.Filled"
-                           Color="Color.Primary">
-                    Contact
-                </MudButton>
-
+                      Spacing="1"
+                      Class="nav-links">
+                <MudButton Href="/" Class="nav-btn">Inicio</MudButton>
+                <MudButton Href="/#solutions" Class="nav-btn">Soluciones</MudButton>
+                <MudButton Href="/#systems" Class="nav-btn">Sistemas completos</MudButton>
+                <MudButton Href="/#ai" Class="nav-btn">IA</MudButton>
+                <MudButton Href="/#projects" Class="nav-btn">Proyectos</MudButton>
+                <MudButton Href="/#about" Class="nav-btn">Nosotros</MudButton>
+                <MudButton Href="/#contact" Class="nav-btn">Contacto</MudButton>
             </MudStack>
         </MudHidden>
 
-        @* Menú móvil *@
-        <MudHidden Breakpoint="Breakpoint.MdAndUp">
+        @* CTA principal *@
+        <MudButton Href="/#contact"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   EndIcon="@Icons.Material.Filled.ArrowForward"
+                   Class="cta-btn ml-3">
+            Solicitar asesoría
+        </MudButton>
+
+        @* Botón menú móvil *@
+        <MudHidden Breakpoint="Breakpoint.LgAndUp">
             <MudIconButton Icon="@Icons.Material.Filled.Menu"
-                           Color="Color.Primary"
-                           Edge="Edge.End"
+                           Color="Color.Inherit"
+                           Class="ml-2"
                            OnClick="ToggleDrawer"
-                           aria-label="Open navigation menu" />
+                           aria-label="Abrir menú" />
         </MudHidden>
 
     </MudContainer>
 
 </MudAppBar>
 
-@* Panel móvil *@
+@* Drawer móvil *@
 <MudDrawer @bind-Open="_drawerOpen"
            Anchor="Anchor.Right"
            Variant="DrawerVariant.Temporary"
-           Elevation="2">
+           Elevation="2"
+           Class="nav-drawer">
 
-    <MudDrawerHeader>
-        <MudText Typo="Typo.h6"
-                 Color="Color.Primary">
-            Ex-code Solutions
-        </MudText>
+    <MudDrawerHeader Class="drawer-header">
+        <MudText Typo="Typo.h6" Class="logo-title">Ex-code Solutions</MudText>
     </MudDrawerHeader>
 
-    <MudNavMenu>
-
-        <MudNavLink Href="/"
-                    Match="NavLinkMatch.All"
-                    OnClick="CloseDrawer">
-            Home
-        </MudNavLink>
-
-        <MudNavLink Href="/#services"
-                    OnClick="CloseDrawer">
-            Services
-        </MudNavLink>
-
-        <MudNavLink Href="/#industries"
-                    OnClick="CloseDrawer">
-            Industries
-        </MudNavLink>
-
-        <MudNavLink Href="/#projects"
-                    OnClick="CloseDrawer">
-            Projects
-        </MudNavLink>
-
-        <MudNavLink Href="/#contact"
-                    OnClick="CloseDrawer">
-            Contact
-        </MudNavLink>
-
+    <MudNavMenu Class="pa-4">
+        <MudNavLink Href="/" Match="NavLinkMatch.All" OnClick="CloseDrawer">Inicio</MudNavLink>
+        <MudNavLink Href="/#solutions" OnClick="CloseDrawer">Soluciones</MudNavLink>
+        <MudNavLink Href="/#systems" OnClick="CloseDrawer">Sistemas completos</MudNavLink>
+        <MudNavLink Href="/#ai" OnClick="CloseDrawer">IA</MudNavLink>
+        <MudNavLink Href="/#projects" OnClick="CloseDrawer">Proyectos</MudNavLink>
+        <MudNavLink Href="/#about" OnClick="CloseDrawer">Nosotros</MudNavLink>
+        <MudNavLink Href="/#contact" OnClick="CloseDrawer">Contacto</MudNavLink>
     </MudNavMenu>
 
 </MudDrawer>
 
 @code {
-    // Estado del menú
     private bool _drawerOpen;
 
-    // Abrir o cerrar
-    private void ToggleDrawer()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
+    private void ToggleDrawer() => _drawerOpen = !_drawerOpen;
 
-    // Cerrar menú
-    private void CloseDrawer()
-    {
-        _drawerOpen = false;
-    }
+    private void CloseDrawer() => _drawerOpen = false;
 }

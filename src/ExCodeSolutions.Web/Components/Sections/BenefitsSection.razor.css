@@ -1,52 +1,58 @@
-/* CSS for BenefitsSection component */
 .benefits-section {
-    background-color: #ffffff;
-    border-top: 1px solid rgba(15, 76, 92, 0.10);
-    border-bottom: 1px solid rgba(15, 76, 92, 0.10);
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.benefits-grid {
+    margin: 0 !important;
 }
 
 .benefit-item {
-    min-height: 6.5rem;
+    min-height: 110px;
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1.25rem;
-    border-right: 1px solid rgba(15, 76, 92, 0.14);
+    padding: 1.5rem 1.25rem;
+    border-right: 1px solid #e5e7eb;
 }
 
 .benefit-item-last {
     border-right: none;
 }
 
-.benefits-section ::deep .benefit-icon {
+.benefit-icon {
     flex-shrink: 0;
-    color: #0b84ff;
-    font-size: 2.6rem;
+    color: #0b84ff !important;
+    font-size: 2.4rem !important;
 }
 
-.benefits-section ::deep .benefit-title {
-    color: #07152d;
-    font-weight: 700;
-    line-height: 1.25;
+.benefit-title {
+    color: #07152d !important;
+    font-weight: 700 !important;
+    line-height: 1.3;
+    margin-bottom: 0.15rem !important;
 }
 
-.benefits-section ::deep .benefit-description {
-    margin-top: 0.25rem;
-    color: #60708d;
+.benefit-description {
+    color: #60708d !important;
+    margin: 0 !important;
 }
 
-/* Dos columnas */
 @media (max-width: 959.98px) {
     .benefit-item {
         border-right: none;
-        border-bottom: 1px solid rgba(15, 76, 92, 0.12);
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .benefit-item-last {
+        border-bottom: none;
     }
 }
 
-/* Una columna */
 @media (max-width: 599.98px) {
     .benefit-item {
         min-height: auto;
-        padding: 1rem 0.5rem;
+        padding: 1.25rem 0.75rem;
     }
 }

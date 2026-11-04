@@ -1,0 +1,138 @@
+/* CSS for SolutionsCatalogSection component */
+/* Sección que aparece después de seleccionar uno de los tres caminos. */
+.solutions-catalog-section {
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    background: #ffffff;
+    scroll-margin-top: 5rem;
+}
+
+/* Encabezado del catálogo. */
+.catalog-heading {
+    max-width: 46rem;
+    margin: 0 auto clamp(2.5rem, 5vw, 3.75rem);
+    text-align: center;
+}
+
+.catalog-eyebrow {
+    font-weight: 800 !important;
+    letter-spacing: 0.14em !important;
+}
+
+.catalog-title {
+    margin: 0.6rem 0 0;
+    color: #07152d;
+    font-size: clamp(1.9rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+}
+
+.catalog-description {
+    max-width: 39rem;
+    margin: 1rem auto 0;
+    color: #586985;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+/*
+ * MudCard es un componente hijo.
+ * ::deep permite que el CSS aislado alcance su elemento HTML interno.
+ */
+.solutions-catalog-section ::deep .catalog-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #dce5ef;
+    border-radius: 1.25rem;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(7, 21, 45, 0.06);
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+    .solutions-catalog-section ::deep .catalog-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(0, 102, 204, 0.55);
+        box-shadow: 0 18px 45px rgba(7, 21, 45, 0.12);
+    }
+
+.solutions-catalog-section ::deep .catalog-card-content {
+    flex-grow: 1;
+    padding: 1.75rem 1.75rem 1rem;
+}
+
+/* Contenedor visual del icono. */
+.catalog-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.35rem;
+    border-radius: 1rem;
+    color: #0066cc;
+    background: rgba(0, 102, 204, 0.09);
+}
+
+    .catalog-icon ::deep .mud-icon-root {
+        color: #0066cc;
+    }
+
+/* Contenido de cada cartilla. */
+.catalog-card-title {
+    margin: 0;
+    color: #07152d;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.catalog-card-summary {
+    margin: 0.85rem 0 0;
+    color: #586985;
+    font-size: 0.98rem;
+    line-height: 1.65;
+}
+
+/* Mantiene el botón alineado en la parte inferior. */
+.solutions-catalog-section ::deep .catalog-card-actions {
+    margin-top: auto;
+    padding: 0.5rem 1.25rem 1.25rem;
+}
+
+    .solutions-catalog-section ::deep .catalog-card-actions .mud-button-root {
+        border-radius: 999px;
+        font-weight: 700;
+        text-transform: none;
+    }
+
+        .solutions-catalog-section
+        ::deep
+        .catalog-card-actions
+        .mud-button-root:focus-visible {
+            outline: 3px solid rgba(0, 102, 204, 0.35);
+            outline-offset: 3px;
+        }
+
+/* Teléfonos pequeños. */
+@media (max-width: 30rem) {
+    .solutions-catalog-section {
+        padding: 3.5rem 0;
+    }
+
+        .solutions-catalog-section ::deep .catalog-card-content {
+            padding: 1.5rem 1.5rem 0.75rem;
+        }
+}
+
+/* Accesibilidad: desactiva movimientos cuando el usuario lo solicita. */
+@media (prefers-reduced-motion: reduce) {
+    .solutions-catalog-section ::deep .catalog-card {
+        transition: none;
+    }
+
+        .solutions-catalog-section ::deep .catalog-card:hover {
+            transform: none;
+        }
+}

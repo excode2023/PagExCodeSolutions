@@ -1,9 +1,31 @@
 ﻿@page "/"
 
 @using ExCodeSolutions.Web.Components.Sections
-@using ExCodeSolutions.Web.Components.Sections.Home
-<PageTitle>Ex-code Solutions | Custom Software</PageTitle>
 
+<PageTitle>
+    Ex-code Solutions | Software, automatización e inteligencia artificial
+</PageTitle>
+
+<HeadContent>
+    <meta name="description"
+          content="Diseñamos software a medida, automatizamos procesos e integramos inteligencia artificial para ayudar a las empresas a trabajar mejor." />
+
+    <meta name="robots"
+          content="index, follow" />
+
+    <meta property="og:title"
+          content="Ex-code Solutions" />
+
+    <meta property="og:description"
+          content="Software que impulsa el crecimiento de tu empresa." />
+
+    <meta property="og:type"
+          content="website" />
+</HeadContent>
 
 <HeroSection />
+
 <BenefitsSection />
+
+@* Las cartillas ahora navegan a páginas independientes. *@
+<SolutionPathsSection />

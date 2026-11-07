@@ -1,0 +1,111 @@
+﻿<section id="process"
+         class="process-showcase"
+         aria-labelledby="process-title">
+
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+
+        <div class="process-layout">
+
+            @* Columna izquierda: explicación del proceso *@
+            <div class="process-content">
+
+                <header class="process-heading">
+                    <p class="section-eyebrow">CÓMO TRABAJAMOS</p>
+
+                    <h2 id="process-title" class="section-title">
+                        Un proceso <span>claro</span> y sin sorpresas
+                    </h2>
+
+                    <p class="section-description">
+                        Trabajamos contigo en cada etapa para construir una solución
+                        que realmente se adapte a tu negocio.
+                    </p>
+                </header>
+
+                @* Al ser un proceso ordenado, usamos ol y li. *@
+                <ol class="process-steps">
+
+                    <li class="process-step">
+                        <span class="step-icon" aria-hidden="true">
+                            <MudIcon Icon="@Icons.Material.Filled.Search" />
+                        </span>
+
+                        <h3>1. Analizamos</h3>
+                        <p>Entendemos tu necesidad.</p>
+                    </li>
+
+                    <li class="process-step">
+                        <span class="step-icon" aria-hidden="true">
+                            <MudIcon Icon="@Icons.Material.Filled.Lightbulb" />
+                        </span>
+
+                        <h3>2. Proponemos</h3>
+                        <p>Diseñamos la mejor solución.</p>
+                    </li>
+
+                    <li class="process-step">
+                        <span class="step-icon" aria-hidden="true">
+                            <MudIcon Icon="@Icons.Material.Filled.Code" />
+                        </span>
+
+                        <h3>3. Desarrollamos</h3>
+                        <p>Construimos y probamos.</p>
+                    </li>
+
+                    <li class="process-step">
+                        <span class="step-icon" aria-hidden="true">
+                            <MudIcon Icon="@Icons.Material.Filled.RocketLaunch" />
+                        </span>
+
+                        <h3>4. Entregamos</h3>
+                        <p>Implementamos y te acompañamos.</p>
+                    </li>
+
+                </ol>
+
+            </div>
+
+            @* Columna derecha: espacio reservado para un proyecto real. *@
+            <article class="featured-project"
+                     aria-labelledby="featured-project-title">
+
+                <h2 id="featured-project-title" class="featured-title">
+                    Proyecto destacado
+                </h2>
+
+                <div class="project-card">
+
+                    <div class="project-preview"
+                         role="img"
+                         aria-label="Vista previa del próximo proyecto destacado">
+
+                        <MudIcon Icon="@Icons.Material.Filled.DashboardCustomize"
+                                 Class="project-preview-icon" />
+
+                        <span>Vista previa en preparación</span>
+                    </div>
+
+                    <div class="project-content">
+                        <span class="project-status">Próximamente</span>
+
+                        <h3>Nuestro próximo proyecto</h3>
+
+                        <p>
+                            Estamos preparando una demostración para mostrarla aquí.
+                        </p>
+
+                        <MudButton Disabled="true"
+                                   Variant="Variant.Filled"
+                                   Class="project-button">
+                            Ver proyecto próximamente
+                        </MudButton>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </MudContainer>
+</section>

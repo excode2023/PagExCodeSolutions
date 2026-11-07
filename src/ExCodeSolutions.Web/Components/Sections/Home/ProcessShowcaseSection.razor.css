@@ -1,0 +1,198 @@
+.process-showcase {
+    --process-primary: #07152d;
+    --process-secondary: #586985;
+    --process-accent: #087ee6;
+    --process-border: #dce5ef;
+    width: 100%;
+    padding: clamp(4rem, 7vw, 6rem) 0;
+    background: #ffffff;
+}
+
+.process-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+}
+
+.process-heading {
+    max-width: 42rem;
+}
+
+.section-eyebrow {
+    margin: 0;
+    color: var(--process-accent);
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.section-title,
+.featured-title {
+    margin: 0.65rem 0 0;
+    color: var(--process-primary);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+
+    .section-title span {
+        color: var(--process-accent);
+    }
+
+.section-description {
+    max-width: 38rem;
+    margin: 1rem 0 0;
+    color: var(--process-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.process-step {
+    position: relative;
+    text-align: center;
+}
+
+    .process-step:not(:last-child)::after {
+        content: "→";
+        position: absolute;
+        top: 1.55rem;
+        right: -1rem;
+        color: var(--process-accent);
+        font-size: 1.5rem;
+    }
+
+.step-icon {
+    width: 3.75rem;
+    height: 3.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--process-accent);
+    background: #eaf4ff;
+}
+
+    .step-icon ::deep .mud-icon-root {
+        font-size: 2rem;
+    }
+
+.process-step h3 {
+    margin: 0.85rem 0 0;
+    color: var(--process-primary);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.process-step p {
+    margin: 0.35rem 0 0;
+    color: var(--process-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.featured-title {
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+}
+
+.project-card {
+    margin-top: 1.5rem;
+    overflow: hidden;
+    border: 1px solid var(--process-border);
+    border-radius: 1.25rem;
+    background: #ffffff;
+    box-shadow: 0 16px 40px rgba(7, 21, 45, 0.1);
+}
+
+.project-preview {
+    min-height: 13rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #087ee6;
+    background: radial-gradient(circle at top right, rgba(8, 126, 230, 0.2), transparent 45%), #edf5fd;
+}
+
+    .project-preview ::deep .project-preview-icon {
+        font-size: 4rem;
+    }
+
+.project-content {
+    padding: 1.5rem;
+}
+
+.project-status {
+    display: inline-flex;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    color: #7048b8;
+    background: #efe8ff;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.project-content h3 {
+    margin: 0.9rem 0 0;
+    color: var(--process-primary);
+    font-size: 1.35rem;
+}
+
+.project-content p {
+    margin: 0.65rem 0 1.25rem;
+    color: var(--process-secondary);
+    line-height: 1.6;
+}
+
+.project-content ::deep .project-button {
+    width: 100%;
+    border-radius: 0.75rem;
+    text-transform: none;
+}
+
+/* Tablet: las dos columnas pasan a una. */
+@media (max-width: 959.98px) {
+    .process-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Móvil: los pasos se muestran verticalmente. */
+@media (max-width: 599.98px) {
+    .process-showcase {
+        padding: 3.5rem 0;
+    }
+
+    .process-steps {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    .process-step:not(:last-child)::after {
+        content: "↓";
+        top: auto;
+        right: 50%;
+        bottom: -1.45rem;
+        transform: translateX(50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .process-showcase *,
+    .process-showcase *::before,
+    .process-showcase *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}

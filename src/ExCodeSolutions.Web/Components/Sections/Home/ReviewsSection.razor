@@ -1,0 +1,112 @@
+<section id="reviews"
+         class="reviews-section"
+         aria-labelledby="reviews-title">
+
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+
+        <header class="reviews-heading">
+            <span class="reviews-heading-icon" aria-hidden="true">
+                <MudIcon Icon="@Icons.Material.Filled.RateReview" />
+            </span>
+
+            <p class="section-eyebrow">EXPERIENCIAS DE CLIENTES</p>
+
+            <h2 id="reviews-title" class="section-title">
+                Lo que dicen nuestros <span>clientes</span>
+            </h2>
+
+            <p class="section-description">
+                Mira un ejemplo de cómo se presentarán las reseñas una vez
+                revisadas y aprobadas por Ex-code Solutions.
+            </p>
+        </header>
+
+        <div class="demo-disclaimer" role="note">
+            <MudIcon Icon="@Icons.Material.Filled.Info" aria-hidden="true" />
+            <span>
+                Estas reseñas son ejemplos visuales. No son testimonios de clientes reales.
+            </span>
+        </div>
+
+        <div class="reviews-grid">
+
+            @foreach (var review in _exampleReviews)
+            {
+                <article class="review-card">
+                    <span class="temporary-label">
+                        <MudIcon Icon="@Icons.Material.Filled.EditNote" aria-hidden="true" />
+                        Ejemplo visual
+                    </span>
+
+                    <div class="review-rating"
+                         aria-label="@($"Calificación de ejemplo: {review.Rating} de 5 estrellas")">
+                        <span class="review-stars" aria-hidden="true">
+                            @for (var starIndex = 0; starIndex < review.Rating; starIndex++)
+                            {
+                                <MudIcon Icon="@Icons.Material.Filled.Star" />
+                            }
+                        </span>
+                        <span class="rating-value">@($"{review.Rating}.0 / 5")</span>
+                    </div>
+
+                    <span class="quote-icon" aria-hidden="true">
+                        <MudIcon Icon="@Icons.Material.Filled.FormatQuote" />
+                    </span>
+
+                    <p class="review-text">@review.Comment</p>
+
+                    <div class="review-author">
+                        <span class="author-icon" aria-hidden="true">
+                            <MudIcon Icon="@Icons.Material.Filled.Business" />
+                        </span>
+
+                        <div>
+                            <h3>@review.Name</h3>
+                            <p>@review.BusinessType</p>
+                        </div>
+                    </div>
+                </article>
+            }
+
+        </div>
+
+        <p class="reviews-notice">
+            <MudIcon Icon="@Icons.Material.Filled.VerifiedUser" aria-hidden="true" />
+            Las reseñas reales se publicarán después de ser revisadas.
+        </p>
+
+    </MudContainer>
+</section>
+
+@code {
+    // DATOS DE DEMOSTRACIÓN: solo sirven para mostrar el diseño; no son reseñas reales.
+    // Al conectar PostgreSQL, reemplaza esta lista y el origen del foreach
+    // por las reseñas aprobadas que devuelva el servicio de reseñas.
+    // No muestres registros pendientes.
+    // Si la cantidad aumenta, solicita los datos por páginas (por ejemplo, 6 reseñas
+    // por página, ordenadas por fecha) en lugar de cargar todos los registros.
+    private readonly IReadOnlyList<ReviewExample> _exampleReviews = new[]
+    {
+        new ReviewExample(
+            "Cliente de ejemplo 01",
+            "Comercio local (ejemplo)",
+            "La comunicación fue clara desde el principio y entendimos qué solución podía ayudarnos.",
+            5),
+        new ReviewExample(
+            "Cliente de ejemplo 02",
+            "Servicio profesional (ejemplo)",
+            "El proceso estuvo bien organizado. Supimos qué esperar en cada etapa del proyecto.",
+            5),
+        new ReviewExample(
+            "Cliente de ejemplo 03",
+            "Pequeña empresa (ejemplo)",
+            "Nos explicaron las opciones con claridad y pudimos elegir una solución adecuada para el negocio.",
+            4)
+    };
+
+    private sealed record ReviewExample(
+        string Name,
+        string BusinessType,
+        string Comment,
+        int Rating);
+}

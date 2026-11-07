@@ -5,7 +5,7 @@
     --process-border: #dce5ef;
     width: 100%;
     padding: clamp(4rem, 7vw, 6rem) 0;
-    background: #ffffff;
+    background: radial-gradient(circle at 10% 10%, rgba(8, 126, 230, 0.045), transparent 30%), #ffffff;
 }
 
 .process-layout {
@@ -37,9 +37,9 @@
     letter-spacing: -0.035em;
 }
 
-    .section-title span {
-        color: var(--process-accent);
-    }
+.section-title span {
+    color: var(--process-accent);
+}
 
 .section-description {
     max-width: 38rem;
@@ -51,26 +51,50 @@
 
 .process-steps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
     margin: 2.5rem 0 0;
-    padding: 0;
+    padding: 0.5rem 0;
     list-style: none;
+    perspective: 1000px;
 }
 
 .process-step {
     position: relative;
+    min-height: 11rem;
+    padding: 1.1rem 0.8rem 1rem;
+    overflow: visible;
+    border: 1px solid rgba(220, 229, 239, 0.95);
+    border-radius: 1.1rem;
+    background: linear-gradient(155deg, #ffffff 15%, #f6faff 100%);
+    box-shadow: 0 8px 20px rgba(7, 21, 45, 0.07),
+                0 2px 5px rgba(7, 21, 45, 0.035);
     text-align: center;
+    transform-style: preserve-3d;
+    transition: transform 280ms cubic-bezier(0.2, 0.75, 0.25, 1),
+                box-shadow 280ms ease,
+                border-color 280ms ease;
 }
 
-    .process-step:not(:last-child)::after {
-        content: "→";
-        position: absolute;
-        top: 1.55rem;
-        right: -1rem;
-        color: var(--process-accent);
-        font-size: 1.5rem;
-    }
+.process-step:hover {
+    z-index: 1;
+    border-color: rgba(8, 126, 230, 0.35);
+    box-shadow: 0 18px 30px rgba(7, 21, 45, 0.13),
+                0 5px 12px rgba(8, 126, 230, 0.08);
+    transform: translateY(-7px) rotateX(3deg) rotateY(-2deg);
+}
+
+.process-step:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    z-index: 2;
+    top: 1.4rem;
+    right: -0.95rem;
+    color: var(--process-accent);
+    font-size: 1.4rem;
+    font-weight: 700;
+    animation: arrow-nudge 2s ease-in-out infinite;
+}
 
 .step-icon {
     width: 3.75rem;
@@ -78,27 +102,41 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(8, 126, 230, 0.1);
     border-radius: 50%;
-    color: var(--process-accent);
-    background: #eaf4ff;
+    color: #ffffff;
+    background: linear-gradient(145deg, #1696ff, #0871d7);
+    box-shadow: 0 7px 14px rgba(8, 126, 230, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transform: translateZ(18px);
+    transition: transform 280ms ease, box-shadow 280ms ease;
 }
 
-    .step-icon ::deep .mud-icon-root {
-        font-size: 2rem;
-    }
+.step-icon ::deep .mud-icon-root {
+    font-size: 1.9rem;
+}
+
+.process-step:hover .step-icon {
+    box-shadow: 0 10px 20px rgba(8, 126, 230, 0.34),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transform: translateZ(28px) scale(1.08) rotate(-5deg);
+}
 
 .process-step h3 {
-    margin: 0.85rem 0 0;
+    margin: 0.9rem 0 0;
     color: var(--process-primary);
     font-size: 1rem;
     font-weight: 800;
+    line-height: 1.35;
+    transform: translateZ(10px);
 }
 
 .process-step p {
-    margin: 0.35rem 0 0;
+    margin: 0.4rem 0 0;
     color: var(--process-secondary);
     font-size: 0.9rem;
     line-height: 1.5;
+    transform: translateZ(6px);
 }
 
 .featured-title {
@@ -112,6 +150,12 @@
     border-radius: 1.25rem;
     background: #ffffff;
     box-shadow: 0 16px 40px rgba(7, 21, 45, 0.1);
+    transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+.project-card:hover {
+    box-shadow: 0 22px 44px rgba(7, 21, 45, 0.15);
+    transform: translateY(-5px) perspective(1000px) rotateX(1deg);
 }
 
 .project-preview {
@@ -122,12 +166,19 @@
     justify-content: center;
     gap: 0.75rem;
     color: #087ee6;
-    background: radial-gradient(circle at top right, rgba(8, 126, 230, 0.2), transparent 45%), #edf5fd;
+    background: radial-gradient(circle at 80% 15%, rgba(8, 126, 230, 0.2), transparent 45%),
+                linear-gradient(135deg, #f0f7ff, #e7f2ff);
 }
 
-    .project-preview ::deep .project-preview-icon {
-        font-size: 4rem;
-    }
+.project-preview ::deep .project-preview-icon {
+    font-size: 4rem;
+    filter: drop-shadow(0 6px 8px rgba(8, 126, 230, 0.18));
+    transition: transform 350ms ease;
+}
+
+.project-card:hover .project-preview ::deep .project-preview-icon {
+    transform: translateY(-4px) rotate(-4deg) scale(1.06);
+}
 
 .project-content {
     padding: 1.5rem;
@@ -161,14 +212,27 @@
     text-transform: none;
 }
 
-/* Tablet: las dos columnas pasan a una. */
+@keyframes arrow-nudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(3px); }
+}
+
+/* Tablet: los pasos forman dos filas de dos tarjetas. */
 @media (max-width: 959.98px) {
     .process-layout {
         grid-template-columns: 1fr;
     }
+
+    .process-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .process-step:not(:last-child)::after {
+        display: none;
+    }
 }
 
-/* Móvil: los pasos se muestran verticalmente. */
+/* Móvil: una tarjeta por fila para mantener la lectura cómoda. */
 @media (max-width: 599.98px) {
     .process-showcase {
         padding: 3.5rem 0;
@@ -176,15 +240,19 @@
 
     .process-steps {
         grid-template-columns: 1fr;
-        gap: 1.75rem;
+        gap: 1rem;
     }
 
-    .process-step:not(:last-child)::after {
-        content: "↓";
-        top: auto;
-        right: 50%;
-        bottom: -1.45rem;
-        transform: translateX(50%);
+    .process-step {
+        min-height: auto;
+        padding: 1.2rem 1rem;
+    }
+}
+
+@media (hover: none) {
+    .process-step:hover,
+    .project-card:hover {
+        transform: none;
     }
 }
 
@@ -193,6 +261,8 @@
     .process-showcase *::before,
     .process-showcase *::after {
         scroll-behavior: auto !important;
-        transition: none !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }

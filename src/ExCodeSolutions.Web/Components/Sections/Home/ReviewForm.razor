@@ -1,5 +1,324 @@
-﻿<h3>ReviewForm</h3>
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<section class="review-form-section"
+         aria-labelledby="review-form-title">
+
+    <div class="review-form-container">
+
+        <div class="review-form-card">
+
+            <!--
+                Tarjeta visual que invita al visitante
+                a compartir su experiencia.
+            -->
+            <aside class="experience-invitation">
+
+                <div class="experience-illustration"
+                     aria-hidden="true">
+
+                    <span class="message-bubble">
+                        <span class="message-line message-line--short"></span>
+                        <span class="message-line"></span>
+                        <span class="message-line message-line--medium"></span>
+                    </span>
+
+                    <span class="star-bubble">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" />
+                    </span>
+
+                    <span class="illustration-spark illustration-spark--one"></span>
+                    <span class="illustration-spark illustration-spark--two"></span>
+                </div>
+
+                <div class="experience-copy">
+
+                    <span class="experience-eyebrow">
+                        Tu opinión nos ayuda
+                    </span>
+
+                    <h2 id="review-form-title">
+                        Comparte <span>tu experiencia</span>
+                    </h2>
+
+                    <p>
+                        Cuéntanos cómo fue tu experiencia trabajando
+                        con Ex-code Solutions.
+                    </p>
+
+                    <div class="no-registration-note">
+                        <MudIcon Icon="@Icons.Material.Filled.LockOpen" />
+
+                        <span>
+                            No necesitas crear una cuenta.
+                        </span>
+                    </div>
+
+                </div>
+
+            </aside>
+
+            <!-- Formulario de reseña -->
+            <div class="review-form-panel">
+
+                <div class="form-heading">
+                    <span class="form-eyebrow">
+                        Comparte tu opinión
+                    </span>
+
+                    <h3>Escribe tu reseña</h3>
+
+                    <p>
+                        Los campos marcados con
+                        <span aria-hidden="true">*</span>
+                        son obligatorios.
+                    </p>
+                </div>
+
+                <EditForm EditContext="@editContext"
+                          OnValidSubmit="@HandleValidSubmit"
+                          class="review-form">
+
+                    <DataAnnotationsValidator />
+
+                    <!-- Nombre -->
+                    <div class="review-field">
+
+                        <label class="review-label" for="review-name">
+                            <span class="field-label-icon" aria-hidden="true">
+                                <MudIcon Icon="@Icons.Material.Filled.Person" />
+                            </span>
+                            <span>
+                                Nombre
+                                <span class="required-marker" aria-hidden="true">*</span>
+                            </span>
+                        </label>
+
+                        <InputText id="review-name"
+                                   class="review-input"
+                                   @bind-Value="review.Name"
+                                   autocomplete="name"
+                                   placeholder="Escribe tu nombre" />
+
+                        <ValidationMessage For="@(() => review.Name)" />
+
+                    </div>
+
+                    <!-- Calificación -->
+                    <div class="review-field">
+
+                        <span id="rating-label" class="review-label">
+                            <span class="field-label-icon" aria-hidden="true">
+                                <MudIcon Icon="@Icons.Material.Filled.Star" />
+                            </span>
+                            <span>
+                                Calificación
+                                <span class="required-marker" aria-hidden="true">*</span>
+                            </span>
+                        </span>
+
+                        <div class="rating-selector"
+                             role="radiogroup"
+                             aria-labelledby="rating-label">
+
+                            @for (var star = 1; star <= 5; star++)
+                            {
+                                var starValue = star;
+
+                                <button type="button"
+                                        class="@GetStarClass(starValue)"
+                                        role="radio"
+                                        aria-checked="@GetAriaChecked(starValue)"
+                                        aria-label="@($"{starValue} {(starValue == 1 ? "estrella" : "estrellas")}")"
+                                        title="@($"{starValue} {(starValue == 1 ? "estrella" : "estrellas")}")"
+                                        @onclick="() => SelectRating(starValue)">
+
+                                    <MudIcon Icon="@Icons.Material.Filled.Star" />
+
+                                </button>
+                            }
+
+                            @if (review.Rating > 0)
+                            {
+                                <span class="rating-result"
+                                      aria-live="polite">
+
+                                    @review.Rating de 5
+
+                                </span>
+                            }
+
+                        </div>
+
+                        <ValidationMessage For="@(() => review.Rating)" />
+
+                    </div>
+
+                    <!-- Comentario -->
+                    <div class="review-field">
+
+                        <label class="review-label" for="review-comment">
+                            <span class="field-label-icon" aria-hidden="true">
+                                <MudIcon Icon="@Icons.Material.Filled.RateReview" />
+                            </span>
+                            <span>
+                                Tu experiencia
+                                <span class="required-marker" aria-hidden="true">*</span>
+                            </span>
+                        </label>
+
+                        <InputTextArea id="review-comment"
+                                       class="review-input review-textarea"
+                                       @bind-Value="review.Comment"
+                                       maxlength="600"
+                                       placeholder="Cuéntanos cómo fue tu experiencia trabajando con nosotros..." />
+
+                        <div class="field-helper">
+                            Máximo 600 caracteres.
+                        </div>
+
+                        <ValidationMessage For="@(() => review.Comment)" />
+
+                    </div>
+
+                    <!-- Aviso temporal -->
+                    <div class="moderation-note">
+
+                        <MudIcon Icon="@Icons.Material.Outlined.Info" />
+
+                        <p>
+                            La reseña será revisada antes de publicarse.
+                            En esta primera versión todavía no se guardará
+                            en la base de datos.
+                        </p>
+
+                    </div>
+
+                    <!-- Resultado provisional del envío -->
+                    @if (!string.IsNullOrWhiteSpace(statusMessage))
+                    {
+                        <div class="form-status"
+                             role="status"
+                             aria-live="polite">
+
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" />
+
+                            <span>@statusMessage</span>
+
+                        </div>
+                    }
+
+                    <button type="submit"
+                            class="review-submit-button">
+
+                        <span>Enviar reseña</span>
+
+                        <MudIcon Icon="@Icons.Material.Filled.Send" />
+
+                    </button>
+
+                </EditForm>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 @code {
 
+    /*
+     * Modelo temporal utilizado únicamente por el formulario.
+     *
+     * Más adelante podremos moverlo a Application o crear
+     * un DTO específico cuando conectemos el backend.
+     */
+    private readonly ReviewDraft review = new();
+
+    private EditContext editContext = default!;
+
+    private string? statusMessage;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(review);
+    }
+
+    /*
+     * Cambia la cantidad de estrellas seleccionadas.
+     */
+    private void SelectRating(int rating)
+    {
+        review.Rating = rating;
+
+        var ratingField = new FieldIdentifier(
+            review,
+            nameof(ReviewDraft.Rating));
+
+        editContext.NotifyFieldChanged(ratingField);
+
+        statusMessage = null;
+    }
+
+    /*
+     * Devuelve la clase CSS dependiendo de si
+     * la estrella está seleccionada.
+     */
+    private string GetStarClass(int star)
+    {
+        return star <= review.Rating
+            ? "rating-star rating-star--selected"
+            : "rating-star";
+    }
+
+    /*
+     * Valor utilizado por los lectores de pantalla
+     * para identificar la estrella seleccionada.
+     */
+    private string GetAriaChecked(int star)
+    {
+        return review.Rating == star
+            ? "true"
+            : "false";
+    }
+
+    /*
+     * Este método solamente simula el envío.
+     *
+     * IMPORTANTE:
+     * todavía no guarda la reseña en una base de datos.
+     */
+    private void HandleValidSubmit()
+    {
+        statusMessage =
+            "Formulario validado correctamente. El guardado se conectará en la siguiente fase.";
+    }
+
+    /*
+     * Datos temporales del formulario.
+     */
+    private sealed class ReviewDraft
+    {
+        [Required(ErrorMessage = "Escribe tu nombre.")]
+        [StringLength(
+            80,
+            MinimumLength = 2,
+            ErrorMessage = "El nombre debe tener entre 2 y 80 caracteres.")]
+        public string Name { get; set; } = string.Empty;
+
+        [Range(
+            1,
+            5,
+            ErrorMessage = "Selecciona una calificación de 1 a 5 estrellas.")]
+        public int Rating { get; set; }
+
+        [Required(ErrorMessage = "Escribe tu experiencia.")]
+        [StringLength(
+            600,
+            MinimumLength = 10,
+            ErrorMessage = "La reseña debe tener entre 10 y 600 caracteres.")]
+        public string Comment { get; set; } = string.Empty;
+    }
 }

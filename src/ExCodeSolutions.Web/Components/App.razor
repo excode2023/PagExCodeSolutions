@@ -1,18 +1,31 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+<!DOCTYPE html>
+@* Idioma principal del documento: español *@
+<html lang="es">
 
 <head>
+    @* Codificación de caracteres *@
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @* Adaptación a dispositivos móviles *@
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    @* Ruta base de la aplicación *@
     <base href="/" />
 
     @* Precarga de recursos *@
     <ResourcePreloader />
 
     @* Estilos principales *@
-    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
-    <link rel="stylesheet" href="@Assets["app.css"]" />
-    <link rel="stylesheet" href="@Assets["ExCodeSolutions.Web.styles.css"]" />
+    <link rel="stylesheet"
+          href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+
+    <link rel="stylesheet"
+          href="@Assets["app.css"]" />
+
+    <link rel="stylesheet"
+          href="@Assets["ExCodeSolutions.Web.styles.css"]" />
 
     @* Estilos MudBlazor *@
     <link rel="stylesheet"
@@ -23,10 +36,10 @@
 
     @* Icono de la pestaña del navegador *@
     <link rel="icon"
-      type="image/png"
-      href="/images/brand/excode-logo.png?v=1" />
+          type="image/png"
+          href="/images/brand/excode-logo.png?v=1" />
 
-    @* Contenido del head *@
+    @* Títulos y metadatos específicos de cada página *@
     <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 

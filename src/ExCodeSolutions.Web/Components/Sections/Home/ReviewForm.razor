@@ -1,324 +1,388 @@
-﻿@using System.ComponentModel.DataAnnotations
+@using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
 
 <section class="review-form-section"
          aria-labelledby="review-form-title">
-
     <div class="review-form-container">
-
         <div class="review-form-card">
-
-            <!--
-                Tarjeta visual que invita al visitante
-                a compartir su experiencia.
-            -->
             <aside class="experience-invitation">
-
-                <div class="experience-illustration"
-                     aria-hidden="true">
-
+                <div class="experience-illustration" aria-hidden="true">
                     <span class="message-bubble">
                         <span class="message-line message-line--short"></span>
                         <span class="message-line"></span>
                         <span class="message-line message-line--medium"></span>
                     </span>
-
                     <span class="star-bubble">
                         <MudIcon Icon="@Icons.Material.Filled.Star" />
                     </span>
-
                     <span class="illustration-spark illustration-spark--one"></span>
                     <span class="illustration-spark illustration-spark--two"></span>
                 </div>
 
                 <div class="experience-copy">
-
-                    <span class="experience-eyebrow">
-                        Tu opinión nos ayuda
-                    </span>
-
-                    <h2 id="review-form-title">
-                        Comparte <span>tu experiencia</span>
-                    </h2>
-
+                    <span class="experience-eyebrow">Reseñas verificadas</span>
+                    <h2 id="review-form-title">Comparte <span>tu experiencia</span></h2>
                     <p>
-                        Cuéntanos cómo fue tu experiencia trabajando
-                        con Ex-code Solutions.
+                        Para publicar una reseña, primero tendrás que iniciar sesión
+                        con una cuenta verificada. Así podremos vincularla a una persona
+                        y revisar su contenido antes de publicarlo.
                     </p>
-
-                    <div class="no-registration-note">
-                        <MudIcon Icon="@Icons.Material.Filled.LockOpen" />
-
-                        <span>
-                            No necesitas crear una cuenta.
-                        </span>
+                    <div class="verification-note">
+                        <MudIcon Icon="@Icons.Material.Filled.VerifiedUser" aria-hidden="true" />
+                        <span>Tu reseña quedará pendiente de revisión.</span>
                     </div>
-
                 </div>
-
             </aside>
 
-            <!-- Formulario de reseña -->
             <div class="review-form-panel">
-
-                <div class="form-heading">
-                    <span class="form-eyebrow">
-                        Comparte tu opinión
-                    </span>
-
-                    <h3>Escribe tu reseña</h3>
-
-                    <p>
-                        Los campos marcados con
-                        <span aria-hidden="true">*</span>
-                        son obligatorios.
-                    </p>
-                </div>
-
-                <EditForm EditContext="@editContext"
-                          OnValidSubmit="@HandleValidSubmit"
-                          class="review-form">
-
-                    <DataAnnotationsValidator />
-
-                    <!-- Nombre -->
-                    <div class="review-field">
-
-                        <label class="review-label" for="review-name">
-                            <span class="field-label-icon" aria-hidden="true">
-                                <MudIcon Icon="@Icons.Material.Filled.Person" />
-                            </span>
-                            <span>
-                                Nombre
-                                <span class="required-marker" aria-hidden="true">*</span>
-                            </span>
-                        </label>
-
-                        <InputText id="review-name"
-                                   class="review-input"
-                                   @bind-Value="review.Name"
-                                   autocomplete="name"
-                                   placeholder="Escribe tu nombre" />
-
-                        <ValidationMessage For="@(() => review.Name)" />
-
+                @if (_isAuthenticated)
+                {
+                    @* Backend: sustituir este estado temporal por el estado del usuario autenticado (ClaimsPrincipal / AuthenticationStateProvider). No confiar en un bool del navegador para autorizar el guardado. *@
+                    <div class="form-heading">
+                        <span class="form-eyebrow">Cuenta verificada</span>
+                        <h3>Escribe tu reseña</h3>
+                        <p>Tu identidad se obtendrá de la sesión autenticada, no de un nombre enviado por el formulario.</p>
                     </div>
 
-                    <!-- Calificación -->
-                    <div class="review-field">
+                    <EditForm Model="@_review"
+                              OnValidSubmit="@HandleReviewSubmitAsync"
+                              class="review-form">
+                        <DataAnnotationsValidator />
 
-                        <span id="rating-label" class="review-label">
-                            <span class="field-label-icon" aria-hidden="true">
-                                <MudIcon Icon="@Icons.Material.Filled.Star" />
-                            </span>
-                            <span>
-                                Calificación
-                                <span class="required-marker" aria-hidden="true">*</span>
-                            </span>
-                        </span>
-
-                        <div class="rating-selector"
-                             role="radiogroup"
-                             aria-labelledby="rating-label">
-
-                            @for (var star = 1; star <= 5; star++)
-                            {
-                                var starValue = star;
-
-                                <button type="button"
-                                        class="@GetStarClass(starValue)"
-                                        role="radio"
-                                        aria-checked="@GetAriaChecked(starValue)"
-                                        aria-label="@($"{starValue} {(starValue == 1 ? "estrella" : "estrellas")}")"
-                                        title="@($"{starValue} {(starValue == 1 ? "estrella" : "estrellas")}")"
-                                        @onclick="() => SelectRating(starValue)">
-
+                        <div class="review-field">
+                            <span id="rating-label" class="review-label">
+                                <span class="field-label-icon" aria-hidden="true">
                                     <MudIcon Icon="@Icons.Material.Filled.Star" />
-
-                                </button>
-                            }
-
-                            @if (review.Rating > 0)
-                            {
-                                <span class="rating-result"
-                                      aria-live="polite">
-
-                                    @review.Rating de 5
-
                                 </span>
-                            }
+                                <span>Calificación <span class="required-marker" aria-hidden="true">*</span></span>
+                            </span>
 
+                            <div class="rating-selector" role="radiogroup" aria-labelledby="rating-label">
+                                @for (var star = 1; star <= 5; star++)
+                                {
+                                    var starValue = star;
+                                    <button type="button"
+                                            class="@GetStarClass(starValue)"
+                                            role="radio"
+                                            aria-checked="@GetAriaChecked(starValue)"
+                                            aria-label="@($"{starValue} {(starValue == 1 ? "estrella" : "estrellas")}")"
+                                            title="@($"{starValue} {(starValue == 1 ? "estrella" : "estrellas")}")"
+                                            @onclick="() => SelectRating(starValue)">
+                                        <MudIcon Icon="@Icons.Material.Filled.Star" aria-hidden="true" />
+                                    </button>
+                                }
+                                @if (_review.Rating > 0)
+                                {
+                                    <span class="rating-result" aria-live="polite">@_review.Rating de 5</span>
+                                }
+                            </div>
+                            <ValidationMessage For="@(() => _review.Rating)" />
                         </div>
 
-                        <ValidationMessage For="@(() => review.Rating)" />
-
-                    </div>
-
-                    <!-- Comentario -->
-                    <div class="review-field">
-
-                        <label class="review-label" for="review-comment">
-                            <span class="field-label-icon" aria-hidden="true">
-                                <MudIcon Icon="@Icons.Material.Filled.RateReview" />
-                            </span>
-                            <span>
-                                Tu experiencia
-                                <span class="required-marker" aria-hidden="true">*</span>
-                            </span>
-                        </label>
-
-                        <InputTextArea id="review-comment"
-                                       class="review-input review-textarea"
-                                       @bind-Value="review.Comment"
-                                       maxlength="600"
-                                       placeholder="Cuéntanos cómo fue tu experiencia trabajando con nosotros..." />
-
-                        <div class="field-helper">
-                            Máximo 600 caracteres.
+                        <div class="review-field">
+                            <label class="review-label" for="review-comment">
+                                <span class="field-label-icon" aria-hidden="true">
+                                    <MudIcon Icon="@Icons.Material.Filled.RateReview" />
+                                </span>
+                                <span>Tu experiencia <span class="required-marker" aria-hidden="true">*</span></span>
+                            </label>
+                            <InputTextArea id="review-comment"
+                                           class="review-input review-textarea"
+                                           @bind-Value="_review.Comment"
+                                           maxlength="600"
+                                           placeholder="Cuéntanos cómo fue tu experiencia con Ex-code Solutions..." />
+                            <div class="field-helper">Entre 10 y 600 caracteres.</div>
+                            <ValidationMessage For="@(() => _review.Comment)" />
                         </div>
 
-                        <ValidationMessage For="@(() => review.Comment)" />
+                        <div class="moderation-note">
+                            <MudIcon Icon="@Icons.Material.Outlined.Info" aria-hidden="true" />
+                            <p>La reseña se enviará para revisión. Solo se publicarán las reseñas aprobadas.</p>
+                        </div>
 
-                    </div>
+                        @if (!string.IsNullOrWhiteSpace(_reviewStatus))
+                        {
+                            <div class="form-status" role="status" aria-live="polite">
+                                <MudIcon Icon="@Icons.Material.Filled.Info" aria-hidden="true" />
+                                <span>@_reviewStatus</span>
+                            </div>
+                        }
 
-                    <!-- Aviso temporal -->
-                    <div class="moderation-note">
-
-                        <MudIcon Icon="@Icons.Material.Outlined.Info" />
-
-                        <p>
-                            La reseña será revisada antes de publicarse.
-                            En esta primera versión todavía no se guardará
-                            en la base de datos.
-                        </p>
-
-                    </div>
-
-                    <!-- Resultado provisional del envío -->
-                    @if (!string.IsNullOrWhiteSpace(statusMessage))
+                        <button type="submit" class="review-submit-button">
+                            <span>Enviar reseña</span>
+                            <MudIcon Icon="@Icons.Material.Filled.Send" aria-hidden="true" />
+                        </button>
+                    </EditForm>
+                }
+                else
+                {
+                    @if (_authView == AuthView.Login)
                     {
-                        <div class="form-status"
-                             role="status"
-                             aria-live="polite">
-
-                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" />
-
-                            <span>@statusMessage</span>
-
+                        <div class="form-heading">
+                            <span class="form-eyebrow">Acceso seguro</span>
+                            <h3>Inicia sesión para continuar</h3>
+                            <p>Usa Google o tu cuenta registrada con correo. Nunca pediremos tu contraseña de Google.</p>
+                        </div>
+                    }
+                    else if (_authView == AuthView.Register)
+                    {
+                        <div class="form-heading">
+                            <span class="form-eyebrow">Crear cuenta</span>
+                            <h3>Regístrate para compartir tu experiencia</h3>
+                            <p>Nombre y correo son obligatorios. Confirmaremos tu correo antes de permitir una reseña.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-heading">
+                            <span class="form-eyebrow">Recuperar acceso</span>
+                            <h3>Restablece tu contraseña</h3>
+                            <p>Solicita un enlace de recuperación para el correo asociado a tu cuenta.</p>
                         </div>
                     }
 
-                    <button type="submit"
-                            class="review-submit-button">
-
-                        <span>Enviar reseña</span>
-
-                        <MudIcon Icon="@Icons.Material.Filled.Send" />
-
+                    <button type="button" class="google-sign-in-button" @onclick="BeginGoogleSignIn">
+                        <span class="google-mark" aria-hidden="true">G</span>
+                        <span>Continuar con Google</span>
                     </button>
 
-                </EditForm>
+                    <div class="auth-divider" aria-hidden="true"><span>o con tu correo</span></div>
 
+                    @if (_authView == AuthView.Login)
+                    {
+                        <EditForm Model="@_login" OnValidSubmit="@HandleEmailLoginAsync" class="review-form auth-form">
+                            <DataAnnotationsValidator />
+                            <div class="review-field">
+                                <label class="review-label" for="login-email">Correo electrónico</label>
+                                <InputText id="login-email" class="review-input" @bind-Value="_login.Email" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" />
+                                <ValidationMessage For="@(() => _login.Email)" />
+                            </div>
+                            <div class="review-field">
+                                <label class="review-label" for="login-password">Contraseña</label>
+                                <InputText id="login-password" class="review-input" @bind-Value="_login.Password" type="password" autocomplete="current-password" placeholder="Tu contraseña" />
+                                <ValidationMessage For="@(() => _login.Password)" />
+                            </div>
+                            <button type="button" class="text-action forgot-action" @onclick="ShowForgotPassword">¿Olvidaste tu contraseña?</button>
+                            <button type="submit" class="review-submit-button"><span>Iniciar sesión</span><MudIcon Icon="@Icons.Material.Filled.Login" aria-hidden="true" /></button>
+                            <p class="auth-switch">¿Aún no tienes cuenta? <button type="button" class="text-action" @onclick="ShowRegister">Crear cuenta</button></p>
+                        </EditForm>
+                    }
+                    else if (_authView == AuthView.Register)
+                    {
+                        <EditForm Model="@_registration" OnValidSubmit="@HandleRegistrationAsync" class="review-form auth-form">
+                            <DataAnnotationsValidator />
+                            <div class="review-field">
+                                <label class="review-label" for="register-first-name">Nombre <span class="required-marker" aria-hidden="true">*</span></label>
+                                <InputText id="register-first-name" class="review-input" @bind-Value="_registration.FirstName" autocomplete="given-name" aria-required="true" placeholder="Tu nombre" />
+                                <ValidationMessage For="@(() => _registration.FirstName)" />
+                            </div>
+                            <div class="review-field">
+                                <label class="review-label" for="register-last-name">Apellido <span class="field-optional">(opcional)</span></label>
+                                <InputText id="register-last-name" class="review-input" @bind-Value="_registration.LastName" autocomplete="family-name" placeholder="Tu apellido" />
+                                <ValidationMessage For="@(() => _registration.LastName)" />
+                            </div>
+                            <div class="review-field">
+                                <label class="review-label" for="register-phone">Teléfono <span class="field-optional">(opcional)</span></label>
+                                <InputText id="register-phone" class="review-input" @bind-Value="_registration.Phone" type="tel" autocomplete="tel" placeholder="+31 6 12345678" />
+                                <ValidationMessage For="@(() => _registration.Phone)" />
+                            </div>
+                            <div class="review-field">
+                                <label class="review-label" for="register-email">Correo electrónico <span class="required-marker" aria-hidden="true">*</span></label>
+                                <InputText id="register-email" class="review-input" @bind-Value="_registration.Email" type="email" autocomplete="email" aria-required="true" placeholder="nombre@ejemplo.com" />
+                                <ValidationMessage For="@(() => _registration.Email)" />
+                            </div>
+                            <div class="review-field">
+                                <label class="review-label" for="register-password">Crea una contraseña</label>
+                                <InputText id="register-password" class="review-input" @bind-Value="_registration.Password" type="password" autocomplete="new-password" placeholder="Mínimo 12 caracteres" />
+                                <ValidationMessage For="@(() => _registration.Password)" />
+                            </div>
+                            <div class="review-field">
+                                <label class="review-label" for="confirm-password">Confirma la contraseña</label>
+                                <InputText id="confirm-password" class="review-input" @bind-Value="_registration.ConfirmPassword" type="password" autocomplete="new-password" placeholder="Escríbela nuevamente" />
+                                <ValidationMessage For="@(() => _registration.ConfirmPassword)" />
+                            </div>
+                            <p class="verification-help">Antes de enviar una reseña, tendrás que confirmar el correo que registres.</p>
+                            <button type="submit" class="review-submit-button"><span>Crear cuenta</span><MudIcon Icon="@Icons.Material.Filled.PersonAdd" aria-hidden="true" /></button>
+                            <p class="auth-switch">¿Ya tienes cuenta? <button type="button" class="text-action" @onclick="ShowLogin">Iniciar sesión</button></p>
+                        </EditForm>
+                    }
+                    else
+                    {
+                        <EditForm Model="@_passwordReset" OnValidSubmit="@HandlePasswordResetAsync" class="review-form auth-form">
+                            <DataAnnotationsValidator />
+                            <p class="reset-instructions">Escribe el correo asociado a tu cuenta. Si el proceso está conectado, recibirás un enlace para crear una contraseña nueva.</p>
+                            <div class="review-field">
+                                <label class="review-label" for="reset-email">Correo electrónico</label>
+                                <InputText id="reset-email" class="review-input" @bind-Value="_passwordReset.Email" type="email" autocomplete="email" placeholder="nombre@ejemplo.com" />
+                                <ValidationMessage For="@(() => _passwordReset.Email)" />
+                            </div>
+                            <button type="submit" class="review-submit-button"><span>Solicitar enlace</span><MudIcon Icon="@Icons.Material.Filled.MarkEmailRead" aria-hidden="true" /></button>
+                            <button type="button" class="text-action back-to-login" @onclick="ShowLogin">Volver al inicio de sesión</button>
+                            <p class="google-recovery-note">Si usas Google, recupera el acceso desde tu cuenta de Google.</p>
+                        </EditForm>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(_authStatus))
+                    {
+                        <div class="form-status form-status--info" role="status" aria-live="polite">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" aria-hidden="true" />
+                            <span>@_authStatus</span>
+                        </div>
+                    }
+
+                    <div class="backend-notice">
+                        <MudIcon Icon="@Icons.Material.Filled.Security" aria-hidden="true" />
+                        <p>La autenticación todavía no está conectada. En esta etapa no se crea ninguna cuenta ni se envía ningún correo.</p>
+                    </div>
+                }
             </div>
-
         </div>
-
     </div>
-
 </section>
 
 @code {
+    // Estado visual temporal. En el siguiente paso debe venir del usuario autenticado
+    // por ASP.NET Core Identity; nunca debe cambiarse a true desde un botón del cliente.
+    private bool _isAuthenticated;
 
-    /*
-     * Modelo temporal utilizado únicamente por el formulario.
-     *
-     * Más adelante podremos moverlo a Application o crear
-     * un DTO específico cuando conectemos el backend.
-     */
-    private readonly ReviewDraft review = new();
+    private AuthView _authView = AuthView.Login;
+    private string? _authStatus;
+    private string? _reviewStatus;
 
-    private EditContext editContext = default!;
+    private readonly LoginDraft _login = new();
+    private readonly RegistrationDraft _registration = new();
+    private readonly PasswordResetDraft _passwordReset = new();
+    private readonly ReviewDraft _review = new();
 
-    private string? statusMessage;
-
-    protected override void OnInitialized()
+    private void ShowLogin()
     {
-        editContext = new EditContext(review);
+        _authView = AuthView.Login;
+        _authStatus = null;
     }
 
-    /*
-     * Cambia la cantidad de estrellas seleccionadas.
-     */
+    private void ShowRegister()
+    {
+        _authView = AuthView.Register;
+        _authStatus = null;
+    }
+
+    private void ShowForgotPassword()
+    {
+        _authView = AuthView.ForgotPassword;
+        _authStatus = null;
+    }
+
+    private void BeginGoogleSignIn()
+    {
+        // BACKEND: redirigir al flujo OAuth de Google con challenge del servidor.
+        // No aceptar una identidad o correo enviado directamente por el navegador.
+        _authStatus = "El acceso con Google se conectará en la fase de autenticación del backend.";
+    }
+
+    private Task HandleEmailLoginAsync()
+    {
+        // BACKEND: validar credenciales mediante ASP.NET Core Identity y establecer
+        // la cookie de autenticación. No implementar una comparación manual de contraseñas.
+        _authStatus = "El inicio de sesión por correo se conectará en la fase de autenticación del backend.";
+        return Task.CompletedTask;
+    }
+
+    private Task HandleRegistrationAsync()
+    {
+        // BACKEND: mapear FirstName, LastName, Phone y Email a un DTO de registro;
+        // crear el usuario con ASP.NET Core Identity y enviar confirmación al correo.
+        // No permitir publicar reseñas hasta verificar el email. No guardar contraseñas
+        // en texto plano ni confiar solo en las validaciones de este formulario.
+        _authStatus = "El registro y la confirmación de correo todavía no están conectados; no se creó ninguna cuenta.";
+        return Task.CompletedTask;
+    }
+
+    private Task HandlePasswordResetAsync()
+    {
+        // BACKEND: generar un token de recuperación de Identity y enviarlo por correo
+        // mediante un servicio de email. No revelar si el correo está registrado.
+        _authStatus = "La recuperación todavía no está conectada; no se envió ningún correo.";
+        return Task.CompletedTask;
+    }
+
     private void SelectRating(int rating)
     {
-        review.Rating = rating;
-
-        var ratingField = new FieldIdentifier(
-            review,
-            nameof(ReviewDraft.Rating));
-
-        editContext.NotifyFieldChanged(ratingField);
-
-        statusMessage = null;
+        _review.Rating = rating;
+        _reviewStatus = null;
     }
 
-    /*
-     * Devuelve la clase CSS dependiendo de si
-     * la estrella está seleccionada.
-     */
-    private string GetStarClass(int star)
+    private string GetStarClass(int star) =>
+        star <= _review.Rating ? "rating-star rating-star--selected" : "rating-star";
+
+    private string GetAriaChecked(int star) =>
+        _review.Rating == star ? "true" : "false";
+
+    private Task HandleReviewSubmitAsync()
     {
-        return star <= review.Rating
-            ? "rating-star rating-star--selected"
-            : "rating-star";
+        // BACKEND: enviar un DTO a IReviewService. El servidor debe obtener el UserId
+        // de la sesión, validar de nuevo calificación/comentario, aplicar límites contra
+        // spam y guardar la reseña con estado Pending. Nunca confiar solo en esta UI.
+        _reviewStatus = "El guardado todavía no está conectado; no se ha enviado ni guardado la reseña.";
+        return Task.CompletedTask;
     }
 
-    /*
-     * Valor utilizado por los lectores de pantalla
-     * para identificar la estrella seleccionada.
-     */
-    private string GetAriaChecked(int star)
+    private enum AuthView
     {
-        return review.Rating == star
-            ? "true"
-            : "false";
+        Login,
+        Register,
+        ForgotPassword
     }
 
-    /*
-     * Este método solamente simula el envío.
-     *
-     * IMPORTANTE:
-     * todavía no guarda la reseña en una base de datos.
-     */
-    private void HandleValidSubmit()
+    private sealed class LoginDraft
     {
-        statusMessage =
-            "Formulario validado correctamente. El guardado se conectará en la siguiente fase.";
+        [Required(ErrorMessage = "Escribe tu correo.")]
+        [EmailAddress(ErrorMessage = "Escribe un correo válido.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Escribe tu contraseña.")]
+        public string Password { get; set; } = string.Empty;
     }
 
-    /*
-     * Datos temporales del formulario.
-     */
-    private sealed class ReviewDraft
+    private sealed class RegistrationDraft
     {
         [Required(ErrorMessage = "Escribe tu nombre.")]
-        [StringLength(
-            80,
-            MinimumLength = 2,
-            ErrorMessage = "El nombre debe tener entre 2 y 80 caracteres.")]
-        public string Name { get; set; } = string.Empty;
+        [StringLength(100, ErrorMessage = "El nombre no puede superar 100 caracteres.")]
+        public string FirstName { get; set; } = string.Empty;
 
-        [Range(
-            1,
-            5,
-            ErrorMessage = "Selecciona una calificación de 1 a 5 estrellas.")]
+        [StringLength(100, ErrorMessage = "El apellido no puede superar 100 caracteres.")]
+        public string? LastName { get; set; }
+
+        [Phone(ErrorMessage = "Escribe un teléfono válido.")]
+        [StringLength(30, ErrorMessage = "El teléfono no puede superar 30 caracteres.")]
+        public string? Phone { get; set; }
+
+        [Required(ErrorMessage = "Escribe tu correo.")]
+        [EmailAddress(ErrorMessage = "Escribe un correo válido.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Crea una contraseña.")]
+        [StringLength(100, MinimumLength = 12, ErrorMessage = "Usa entre 12 y 100 caracteres.")]
+        public string Password { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Confirma tu contraseña.")]
+        [Compare(nameof(Password), ErrorMessage = "Las contraseñas no coinciden.")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+
+    private sealed class PasswordResetDraft
+    {
+        [Required(ErrorMessage = "Escribe tu correo.")]
+        [EmailAddress(ErrorMessage = "Escribe un correo válido.")]
+        public string Email { get; set; } = string.Empty;
+    }
+
+    private sealed class ReviewDraft
+    {
+        [Range(1, 5, ErrorMessage = "Selecciona una calificación de 1 a 5 estrellas.")]
         public int Rating { get; set; }
 
         [Required(ErrorMessage = "Escribe tu experiencia.")]
-        [StringLength(
-            600,
-            MinimumLength = 10,
-            ErrorMessage = "La reseña debe tener entre 10 y 600 caracteres.")]
+        [StringLength(600, MinimumLength = 10, ErrorMessage = "La reseña debe tener entre 10 y 600 caracteres.")]
         public string Comment { get; set; } = string.Empty;
     }
 }

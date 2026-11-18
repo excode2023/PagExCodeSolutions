@@ -1,34 +1,90 @@
-﻿@page "/"
+﻿
+@page "/"
 
 @using ExCodeSolutions.Web.Components.Sections
 
+@* ============================================
+   SEO: TÍTULO PRINCIPAL
+   ============================================ *@
+
 <PageTitle>
-    Ex-code Solutions | Software, automatización e inteligencia artificial
+    Desarrollo de Software a Medida | Ex-code Solutions
 </PageTitle>
 
 <HeadContent>
+
+    @* ========================================
+       SEO: DESCRIPCIÓN PARA BUSCADORES
+       ======================================== *@
+
     <meta name="description"
-          content="Diseñamos software a medida, automatizamos procesos e integramos inteligencia artificial para ayudar a las empresas a trabajar mejor." />
+          content="Desarrollamos software a medida, páginas web,
+                   aplicaciones empresariales, MicroApps,
+                   automatización de procesos y soluciones
+                   con inteligencia artificial." />
+
+    @* ========================================
+       SEO: INDEXACIÓN
+       ======================================== *@
 
     <meta name="robots"
           content="index, follow" />
 
-    <meta property="og:title"
-          content="Ex-code Solutions" />
-
-    <meta property="og:description"
-          content="Software que impulsa el crecimiento de tu empresa." />
+    @* ========================================
+       OPEN GRAPH: REDES SOCIALES
+       ======================================== *@
 
     <meta property="og:type"
           content="website" />
+
+    <meta property="og:title"
+          content="Desarrollo de Software a Medida | Ex-code Solutions" />
+
+    <meta property="og:description"
+          content="Creamos páginas web, aplicaciones,
+                   automatizaciones, MicroApps y
+                   soluciones con IA para empresas
+                   y profesionales." />
+
+    <meta property="og:site_name"
+          content="Ex-code Solutions" />
+
+    <meta property="og:locale"
+          content="es_ES" />
+
+    @* ========================================
+       TARJETAS PARA X / TWITTER
+       ======================================== *@
+
+    <meta name="twitter:card"
+          content="summary" />
+
+    <meta name="twitter:title"
+          content="Desarrollo de Software a Medida | Ex-code Solutions" />
+
+    <meta name="twitter:description"
+          content="Software empresarial, desarrollo web,
+                   automatización, MicroApps y
+                   soluciones con inteligencia artificial." />
+
 </HeadContent>
+
+@* ============================================
+   CONTENIDO PRINCIPAL DEL HOME
+   ============================================ *@
 
 <HeroSection />
 
 <BenefitsSection />
 
-@* Las cartillas ahora navegan a páginas independientes.*@
+@* Cartillas de nuestros servicios *@
 <SolutionPathsSection />
+
+@* Presentación del proceso de desarrollo *@
 <ProcessShowcaseSection />
+
+@* Reseñas y experiencias de clientes *@
 <ReviewsSection />
+
+@* Formulario y acceso para dejar reseñas *@
 <ReviewForm />

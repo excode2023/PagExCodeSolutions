@@ -1,3 +1,8 @@
+@* FUTURO BACKEND:
+   Cuando exista el servicio de reseñas, se inyectará aquí.
+   Ejemplo: @inject IReviewService ReviewService
+*@
+
 <section id="reviews"
          class="reviews-section"
          aria-labelledby="reviews-title">
@@ -16,8 +21,8 @@
             </h2>
 
             <p class="section-description">
-                Mira un ejemplo de cómo se presentarán las reseñas una vez
-                revisadas y aprobadas por Ex-code Solutions.
+                Experiencias que reflejan la claridad, el acompañamiento
+                y el valor aportado en cada proyecto.
             </p>
         </header>
 
@@ -28,83 +33,199 @@
             </span>
         </div>
 
-        <div class="reviews-grid">
+        @if (_reviews.Count == 0)
+        {
+            <div class="reviews-empty" role="status">
+                <MudIcon Icon="@Icons.Material.Outlined.RateReview" aria-hidden="true" />
+                <h3>Aún no hay reseñas publicadas</h3>
+                <p>Las experiencias aprobadas aparecerán en este espacio.</p>
+            </div>
+        }
+        else
+        {
+            <div class="reviews-marquee"
+                 role="region"
+                 aria-roledescription="carrusel automático"
+                 aria-label="Reseñas de clientes en movimiento">
 
-            @foreach (var review in _exampleReviews)
-            {
-                <article class="review-card">
-                    <span class="temporary-label">
-                        <MudIcon Icon="@Icons.Material.Filled.EditNote" aria-hidden="true" />
-                        Ejemplo visual
-                    </span>
+                <div class="marquee-edge marquee-edge--left" aria-hidden="true"></div>
+                <div class="marquee-edge marquee-edge--right" aria-hidden="true"></div>
 
-                    <div class="review-rating"
-                         aria-label="@($"Calificación de ejemplo: {review.Rating} de 5 estrellas")">
-                        <span class="review-stars" aria-hidden="true">
-                            @for (var starIndex = 0; starIndex < review.Rating; starIndex++)
-                            {
-                                <MudIcon Icon="@Icons.Material.Filled.Star" />
-                            }
-                        </span>
-                        <span class="rating-value">@($"{review.Rating}.0 / 5")</span>
+                <div class="marquee-viewport">
+                    <div class="marquee-track" style="@GetMarqueeStyle()">
+
+                        @for (var groupIndex = 0; groupIndex < 2; groupIndex++)
+                        {
+                            var isDuplicateGroup = groupIndex == 1;
+
+                            <div class="review-group"
+                                 role="list"
+                                 aria-hidden="@(isDuplicateGroup ? "true" : null)">
+
+                                @foreach (var review in _reviews)
+                                {
+                                    <article class="review-card"
+                                             role="listitem"
+                                             tabindex="@(isDuplicateGroup ? "-1" : "0")">
+
+                                        <span class="card-glow" aria-hidden="true"></span>
+
+                                        <header class="review-card-header">
+                                            <span class="temporary-label">
+                                                <MudIcon Icon="@Icons.Material.Filled.EditNote"
+                                                         aria-hidden="true" />
+                                                Ejemplo visual
+                                            </span>
+
+                                            <span class="quote-icon" aria-hidden="true">
+                                                <MudIcon Icon="@Icons.Material.Filled.FormatQuote" />
+                                            </span>
+                                        </header>
+
+                                        <div class="review-rating"
+                                             aria-label="@($"Calificación de ejemplo: {review.Rating} de 5 estrellas")">
+
+                                            <span class="review-stars" aria-hidden="true">
+                                                @for (var star = 1; star <= 5; star++)
+                                                {
+                                                    <MudIcon Icon="@(star <= review.Rating
+                                                        ? Icons.Material.Filled.Star
+                                                        : Icons.Material.Outlined.StarBorder)" />
+                                                }
+                                            </span>
+
+                                            <span class="rating-value">
+                                                @($"{review.Rating}.0")
+                                            </span>
+                                        </div>
+
+                                        <blockquote class="review-quote">
+                                            <p>@review.Comment</p>
+                                        </blockquote>
+
+                                        <footer class="review-author">
+                                            <span class="author-avatar" aria-hidden="true">
+                                                @GetInitials(review.Name)
+                                            </span>
+
+                                            <div class="author-details">
+                                                <h3>@review.Name</h3>
+                                                <p>@review.BusinessType</p>
+                                            </div>
+
+                                            <span class="verified-mark"
+                                                  title="Reseña aprobada"
+                                                  aria-label="Reseña aprobada">
+                                                <MudIcon Icon="@Icons.Material.Filled.Verified" />
+                                            </span>
+                                        </footer>
+
+                                    </article>
+                                }
+
+                            </div>
+                        }
+
                     </div>
+                </div>
 
-                    <span class="quote-icon" aria-hidden="true">
-                        <MudIcon Icon="@Icons.Material.Filled.FormatQuote" />
-                    </span>
+                <p class="marquee-help">
+                    <MudIcon Icon="@Icons.Material.Outlined.TouchApp" aria-hidden="true" />
+                    Pasa el mouse o selecciona una cartilla para detener el movimiento.
+                </p>
 
-                    <p class="review-text">@review.Comment</p>
-
-                    <div class="review-author">
-                        <span class="author-icon" aria-hidden="true">
-                            <MudIcon Icon="@Icons.Material.Filled.Business" />
-                        </span>
-
-                        <div>
-                            <h3>@review.Name</h3>
-                            <p>@review.BusinessType</p>
-                        </div>
-                    </div>
-                </article>
-            }
-
-        </div>
+            </div>
+        }
 
         <p class="reviews-notice">
             <MudIcon Icon="@Icons.Material.Filled.VerifiedUser" aria-hidden="true" />
-            Las reseñas reales se publicarán después de ser revisadas.
+            Las reseñas reales se publicarán únicamente después de ser revisadas.
         </p>
 
     </MudContainer>
 </section>
 
 @code {
-    // DATOS DE DEMOSTRACIÓN: solo sirven para mostrar el diseño; no son reseñas reales.
-    // Al conectar PostgreSQL, reemplaza esta lista y el origen del foreach
-    // por las reseñas aprobadas que devuelva el servicio de reseñas.
-    // No muestres registros pendientes.
-    // Si la cantidad aumenta, solicita los datos por páginas (por ejemplo, 6 reseñas
-    // por página, ordenadas por fecha) en lugar de cargar todos los registros.
-    private readonly IReadOnlyList<ReviewExample> _exampleReviews = new[]
-    {
-        new ReviewExample(
-            "Cliente de ejemplo 01",
-            "Comercio local (ejemplo)",
-            "La comunicación fue clara desde el principio y entendimos qué solución podía ayudarnos.",
-            5),
-        new ReviewExample(
-            "Cliente de ejemplo 02",
-            "Servicio profesional (ejemplo)",
-            "El proceso estuvo bien organizado. Supimos qué esperar en cada etapa del proyecto.",
-            5),
-        new ReviewExample(
-            "Cliente de ejemplo 03",
-            "Pequeña empresa (ejemplo)",
-            "Nos explicaron las opciones con claridad y pudimos elegir una solución adecuada para el negocio.",
-            4)
-    };
+    private IReadOnlyList<ReviewCardModel> _reviews = Array.Empty<ReviewCardModel>();
 
-    private sealed record ReviewExample(
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadReviewsAsync();
+    }
+
+    private async Task LoadReviewsAsync()
+    {
+        /* ================================================================
+         * PUNTO DE CONEXIÓN CON EL FUTURO BACKEND
+         * ================================================================
+         *
+         * No se consulta ninguna base de datos en esta versión.
+         *
+         * Cuando exista IReviewService, reemplaza la asignación temporal
+         * situada debajo por una consulta parecida a esta:
+         *
+         * _reviews = await ReviewService.GetApprovedReviewsAsync();
+         *
+         * El backend deberá devolver SOLAMENTE reseñas aprobadas,
+         * ordenadas y paginadas. Nunca se mostrarán reseñas pendientes.
+         * ================================================================ */
+
+        await Task.CompletedTask;
+
+        // Datos temporales utilizados únicamente para diseñar el carrusel.
+        _reviews = GetExampleReviews();
+    }
+
+    private string GetMarqueeStyle()
+    {
+        // La cinta se vuelve un poco más lenta cuando contiene más reseñas,
+        // para conservar una velocidad de lectura cómoda.
+        var durationInSeconds = Math.Clamp(_reviews.Count * 9, 27, 90);
+
+        return $"--scroll-duration: {durationInSeconds}s;";
+    }
+
+    private static string GetInitials(string name)
+    {
+        var words = name.Split(
+            ' ',
+            StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        return string.Concat(
+            words.Take(2).Select(word => char.ToUpperInvariant(word[0])));
+    }
+
+    private static IReadOnlyList<ReviewCardModel> GetExampleReviews()
+    {
+        return new[]
+        {
+            new ReviewCardModel(
+                "Cliente de ejemplo 01",
+                "Comercio local (ejemplo)",
+                "La comunicación fue clara desde el principio y entendimos qué solución podía ayudarnos.",
+                5),
+
+            new ReviewCardModel(
+                "Cliente de ejemplo 02",
+                "Servicio profesional (ejemplo)",
+                "El proceso estuvo bien organizado. Supimos qué esperar en cada etapa del proyecto.",
+                5),
+
+            new ReviewCardModel(
+                "Cliente de ejemplo 03",
+                "Pequeña empresa (ejemplo)",
+                "Nos explicaron las opciones con claridad y pudimos elegir una solución adecuada para el negocio.",
+                4),
+
+            new ReviewCardModel(
+                "Cliente de ejemplo 04",
+                "Empresa de servicios (ejemplo)",
+                "Recibimos explicaciones sencillas, seguimiento constante y una propuesta enfocada en nuestras necesidades.",
+                5)
+        };
+    }
+
+    private sealed record ReviewCardModel(
         string Name,
         string BusinessType,
         string Comment,
